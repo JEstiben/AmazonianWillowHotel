@@ -1,0 +1,68 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Tarifas";
+}
+
+<h2>Tarifas</h2>
+<br />
+<br />
+
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Tipo_Habitacion>)ViewData["Tarifas"])
+{
+    var base64ImagenHotel = Convert.ToBase64String(item.Imagen1.imagen1);
+    string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+    <div class="row">
+        <div class="col-sm-3">
+            <img class="mostrarModal" width="100%" alt="@item.titulo" src="@imgSrcImagenHotel">
+        </div>
+        <div class="col-sm-9">
+            <h3>@item.titulo</h3>
+            <br />
+            <p>@item.descripcion</p>
+            <p>Precio: $@item.tarifa</p>
+            <br/>
+            <p>Caracteristicas:</p>
+
+            @foreach (var caracteristica in (List<AmazoniamWillowHotel.Models.Caracteristica>)@item.Caracteristica.ToList())
+            {
+                <p>> @caracteristica.descripcion</p>
+                <br />
+            }
+        </div>
+    </div>
+    <br />
+    <br />
+}
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".mostrarModal").click(function () {
+
+            var modal = $("#myModal");
+            var titulo = $(this).attr('alt');
+            var img = $(this).attr('src');
+
+            modal.find('.modal-title').text(titulo);
+            modal.find('.modal-body').html('<img width="100%" src="' + img + '" />');
+            modal.modal();
+
+        });
+    });
+</script>

@@ -1,0 +1,45 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Administrar Habitaciones";
+}
+
+<h2>Administrar Habitaciones</h2>
+<br />
+<br />
+
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Tipo_Habitacion>)ViewData["AdministrarHabitaciones"])
+{
+    <div class="row">
+        <div class="col-sm-9">
+            <h3>@item.titulo @Html.ActionLink("cambiar descripción", "modifyRoomType", new { type = item.id })</h3>
+            <br />
+            <table class="table table-striped w-auto">
+                <thead>
+                    <tr>
+                        <th scope="col">Número de Habitación</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="body">
+                    @foreach (var habitacion in (List<AmazoniamWillowHotel.Models.Habitacion>)@item.Habitacion.ToList())
+                    {
+                    <tr>
+                        <td>@habitacion.numero</td>
+                        @if (@habitacion.estado == 1)
+                        {
+                            <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked/></td>
+                        }
+                        else
+                        {
+                            <td><input type="checkbox"/></td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <br />
+}

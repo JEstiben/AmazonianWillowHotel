@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Consultar disponibilidad";
+}
+
+<h2>Consultar disponibilidad de habitaciones</h2>
+<br /><br />
+
+<div class="row">
+
+    <div class="col-sm-4">
+        <label>Fecha de llegada: </label>
+        <input type="text" id="fechaLlegada" name="fechaLlegada" class="form-control" value="dd/mm/aaaa" />
+    </div>
+    <div class="col-sm-4">
+        <label>Fecha de salida: </label>
+        <input type="text" id="fechaSalida" name="fechaSalida" class="form-control" value="dd/mm/aaaa" />
+    </div>
+
+    <div class="col-sm-4">
+        <label>Tipo de habitación:</label>
+        <select name="TipoHabitacion" id="TipoHabitacion" class="form-control">
+            <option value="0" selected>Todos los tipos</option>
+            @foreach (var item in (List<AmazoniamWillowHotel.Models.Tipo_Habitacion>)ViewData["types"])
+            {
+                <option value="@item.id">@item.titulo</option>
+            }
+        </select>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-offset-7 col-sm-5">
+        <input class="form-control btn btn-default" type="button" id="consultar" name="consultar" value="Consultar" />
+    </div>
+</div>
+
+
+
+
+<table class="table table-striped w-auto">
+    <thead>
+        <tr>
+            <th scope="col">Número de habitación</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Tarifa</th>
+        </tr>
+    </thead>
+    <tbody id="body"></tbody>
+</table>
+
+
+<script>
+    $('#consultar').click("click", function () {
+        var fechaLlegada = $("#fechaLlegada").val();
+        var fechaSalida = $("#fechaSalida").val();
+        var tipoHabitacion = $("#TipoHabitacion").val();
+
+        var bodyTable = "";
+        $.ajax({
+            type: 'POST',
+            url: "/Admin/consultarDisponibilidad",
+            dataType: 'json',
+            data: { TipoHabitacion: tipoHabitacion, fechaLlegada: fechaLlegada, fechaSalida: fechaSalida},
+
+            success: function (rooms) {
+                var data = JSON.stringify(rooms);
+
+                for (var i = 0; i < rooms.length; i++) {
+                    bodyTable += "<tr><th scope='row'>" + rooms[i].habitacion + "</th>";
+                    bodyTable += "<td>" + rooms[i].tipo + "</td>";
+                    bodyTable += "<td>" + rooms[i].tarifa + "</td></tr>";
+                }
+                $("#body").html(bodyTable);
+            },
+            error: function (ex) {
+                // md.modal('hide');
+                alert('Fallo al procesar.' + ex);
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+    $(function () {
+        var dateFormat = "dd/mm/yy",
+            fechaLlegada = $("#fechaLlegada").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    fechaSalida.datepicker("option", "minDate", getDate(this));
+                    fechaSalida.datepicker("setDate", "dd/mm/aaaa")
+                }),
+            fechaSalida = $("#fechaSalida").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    fechaLlegada.datepicker("option", "maxDate", getDate(this));
+                });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+            return date;
+        }
+    });
+</script>

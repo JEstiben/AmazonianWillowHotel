@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "¿Como Llegar?";
+}
+
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Pagina>)ViewData["¿Como Llegar?"])
+{
+    foreach (var info in (List<AmazoniamWillowHotel.Models.Info>)@item.Info.ToList())
+    {
+        <div class="row">
+            <h2>@info.titulo</h2>
+            <br/>
+            @{
+                var parrrafos = info.descripcion.Split('^');
+                foreach (String p in parrrafos)
+                {
+                    <p>@p</p><br />
+                }
+            }
+            <div id="map">
+            </div>
+        </div>
+    }
+}
+
+<script src="~/Public/js/map.js" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC1JuYmoq83Om5mLz0qyg_k1viClteC2NU&callback=initMap"></script>
+<script>initMap();</script>

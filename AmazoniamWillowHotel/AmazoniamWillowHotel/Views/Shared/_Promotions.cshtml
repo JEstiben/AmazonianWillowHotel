@@ -1,0 +1,34 @@
+﻿@{
+    var count = 0;
+    foreach (var item in (List<AmazoniamWillowHotel.Models.Promocion>)ViewData["Promotions"])
+    {
+        var base64ImagenHotel = Convert.ToBase64String(item.Tipo_Habitacion.Imagen1.imagen1);
+        string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+
+        if (count == 0)
+        {
+            <div class="item active">
+                <a href="~/Promotion/ShowPromotion/@item.id">
+                    <img src="@imgSrcImagenHotel" alt="Promocion">
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>Hab. @item.Tipo_Habitacion.titulo</p>
+                        <p>@item.descuento% de descuento</p>
+                    </div>
+                </a>
+            </div>
+            count++;
+        }
+        else
+        {
+            <div class="item">
+                <a href="~/Promotion/ShowPromotion/@item.id">
+                    <img src="@imgSrcImagenHotel" alt="Promocion">
+                    <div class="carousel-caption d-none d-md-block">
+                        <p>Hab. @item.Tipo_Habitacion.titulo</p>
+                        <p>@item.descuento% de descuento</p>
+                    </div>
+                </a>
+            </div>
+        }
+    }
+}

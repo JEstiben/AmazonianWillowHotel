@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Amazonian Willow</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Great Taste Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/Public/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Public/images/logo.png" />
+    <!-- js -->
+    <script src="~/Public/js/jquery.js"></script>
+    <script src="~/Public/js/jquery-ui.js"></script>
+    <script src="~/Public/js/jquery.maskedinput.js"></script>
+    <script src="~/Public/js/bootstrap.min.js"></script>
+    <script src="~/Public/js/bootstrap.js"></script>
+    <!-- //js -->
+    <link href='~/Public/css/OpenSans.css' rel='stylesheet' type='text/css'>
+    <link href='~/Public/css/GreatVibes.css' rel='stylesheet' type='text/css'>
+    <link href='~/Public/css/Comfortaa.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <!-- banner-body -->
+    <div class="banner-body">
+        <div class="container">
+            <div class="banner-body-content">
+                <div class="logo">
+                    <div class="logo-left">
+                        <a href="~/Home/index"><img style="max-width: 100%;" src="~/Public/images/logo.png"></a>
+                    </div>
+                    <div id="promos" class="promos">
+                        <div id="myCarousel1" class="carousel slide" data-ride="carousel">
+                            <!-- Wrapper for slides -->
+                            <div id="carouselPr" class="carousel-inner">
+                                
+                            </div>
+
+                            <a class="left carousel-control" href="#myCarousel1" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel1" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="nombre">
+                        <h2>Hotel Amazonian Willow</h2>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <hr>
+                <div class="col-xs-3 banner-body-left">
+                    <div class="top-nav">
+                        <nav class="navbar navbar-default">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+                                <nav class="stroke">
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="~/Home/Index" class="hvr-underline-from-left"><i class="menu"></i>Home</a></li>
+                                        <li><a href="~/Home/About" class="hvr-underline-from-left"><i class="menu"></i>Sobre Nosotros</a></li>
+                                        <li><a href="~/Facilitie/Facilities" class="hvr-underline-from-left"><i class="menu"></i>Facilidades</a></li>
+                                        <li><a href="~/Home/HowToGet" class="hvr-underline-from-left"><i class="menu"></i>¿Como Llegar?</a></li>
+                                        <li><a href="~/Home/Rates" class="hvr-underline-from-left"><i class="menu"></i>Tarifas</a></li>
+                                        <li><a href="~/Reservation/OnlineBook" class="hvr-underline-from-left"><i class="menu"></i>Reservar en Linea</a></li>
+                                        <li><a href="~/Home/Contact" class="hvr-underline-from-left"><i class="menu"></i>Contactenos</a></li>
+                                        <li><a href="~/Admin/Login" class="hvr-underline-from-left"><i class="menu"></i>Administrar Sitio</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- /.navbar-collapse -->
+                        </nav>
+                    </div>
+                    <div id="publicidad" class="publicidad">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                            <!-- Wrapper for slides -->
+                            <div id="carouselP" class="carousel-inner">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container body-content col-xs-9">
+                    @RenderBody()
+                </div>
+                <div class="clearfix"> </div>
+                <hr>
+                <div class="footer">
+                    <div class="footer-right">
+                        <p>Copyright © Hotel Amazonian Willow 2019</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //banner-body -->
+</body>
+</html>
+<script type="text/javascript">
+    $.ajax({
+        url: '/Advertising/_Advertising',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html',
+        success: function (result) {
+            if (result != "") {
+                $('#carouselP').html(result);
+            } else {
+                $('#publicidad').toggle();
+            }
+        },
+        error: function (xhr, status) {
+                alert(status);
+        }
+    });
+    $.ajax({
+        url: '/Promotion/_Promotions',
+        contentType: 'application/html; charset=utf-8',
+        type: 'GET',
+        dataType: 'html',
+        success: function (result) {
+            if (result != "") {
+                $('#carouselPr').html(result);
+            } else {
+                $('#promos').toggle();
+            }
+        },
+        error: function (xhr, status) {
+            alert(status);
+        }
+    });
+</script>

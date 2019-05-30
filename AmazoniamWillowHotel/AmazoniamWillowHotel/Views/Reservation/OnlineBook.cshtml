@@ -1,0 +1,120 @@
+﻿@{
+    /**/
+
+    ViewBag.Title = "Reservar en linea";
+}
+
+<div class="modal modal-static fade" id="processing-modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="~/Public/images/loading.gif" class="icon-modal" />
+                    <h5><span class="modal-text">Verificando disponibilidad, Espere por favor... </span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <h2>@ViewBag.Title</h2>
+    <br />
+    <div>
+        <div class="formulario">
+            <div class="banner-formulario">
+                @Html.Label("Tipo de Habitación")
+                <select name="TipoHabitacion" id="TipoHabitacion" class="form-control">
+                    @foreach (var item in (List<AmazoniamWillowHotel.Models.Tipo_Habitacion>)ViewData["types"])
+                    {
+                        <option value="@item.id">@item.titulo</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <br />
+        @using (Html.BeginForm("ReservationClient", "Reservation", FormMethod.Post, new { id = "myForm" }))
+        {
+            <input type="hidden" id="numero" name="numero" class="form-control" />
+            <input type="hidden" id="titulo" name="titulo" class="form-control" />
+            <input type="hidden" id="descripcion" name="descripcion" class="form-control" />
+            <input type="hidden" id="tarifa" name="tarifa" class="form-control" />
+            <input type="hidden" id="imagen" name="imagen" class="form-control" />
+            <div class="formulario">
+                <div class="banner-formulario">
+                    @Html.Label("Fecha de Llegada")
+                    <input type="text" id="fechaLlegada" name="fechaLlegada" class="form-control" value="dd/mm/aaaa" />
+                </div>
+                <div class="banner-formulario">
+                    @Html.Label("Fecha de Salida")
+                    <input type="text" id="fechaSalida" name="fechaSalida" class="form-control" value="dd/mm/aaaa" />
+                </div>
+            </div>
+        }
+        <p id="spanFecha" class="text-danger"></p>
+        <br />
+        <div>
+            <div style="text-align: center;">
+                <input value="Aceptar" id="Aceptar" name="Aceptar" type="button" class="btn btn-primary">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        var dateFormat = "dd/mm/yy",
+            fechaLlegada = $("#fechaLlegada").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    var fecha = $("#fechaLlegada").datepicker("getDate");
+                    fecha.setDate(fecha.getDate() + 1); 
+                    fechaSalida.datepicker("option", "minDate", fecha);
+                    fechaSalida.datepicker("setDate", "dd/mm/aaaa")
+                }),
+            fechaSalida = $("#fechaSalida").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    var fecha = $("#fechaSalida").datepicker("getDate");
+                    fecha.setDate(fecha.getDate()); 
+                    fechaLlegada.datepicker("option", "maxDate", fecha);
+                });
+    });
+
+    $("#Aceptar").click("click", function () {
+        var fechaLlegada = $("#fechaLlegada").val();
+        var fechaSalida = $("#fechaSalida").val();
+        var tipoHabitacion = $("#TipoHabitacion").val();
+        if (fechaLlegada != "dd/mm/aaaa" && fechaSalida != "dd/mm/aaaa") {
+            var md = $("#processing-modal");
+            md.modal('show');
+
+            $.ajax({
+                type: 'POST',
+                url: "/Reservation/checkAvailability",
+                dataType: 'json',
+                data: { TipoHabitacion: tipoHabitacion, fechaLlegada: fechaLlegada, fechaSalida: fechaSalida },
+
+                success: function (checkAvailability1) {
+                    if (checkAvailability1 != "") {
+                        if (checkAvailability1.descripcion == "No hay Habitaciones") {
+                            md.modal('hide');
+                            location.href = "RoomNotAvailable";
+                        } else {
+                            md.modal('hide');
+                            document.getElementById('numero').value = checkAvailability1.numero;
+                            document.getElementById('titulo').value = checkAvailability1.titulo;
+                            document.getElementById('descripcion').value = checkAvailability1.descripcion;
+                            document.getElementById('tarifa').value = checkAvailability1.tarifa;
+                            document.getElementById('imagen').value = checkAvailability1.imagen;
+                            $("#myForm").submit();
+                        }//if-else
+                    }//if retorno algo
+                },
+                error: function (ex) {
+                    md.modal('hide');
+                    alert('Fallo al verificar la disponibilidad.' + ex);
+                }
+            });
+        } else {
+            document.getElementById("spanFecha").innerHTML = "Se requiere una fecha de llegada y una fecha de salida para verificar la disponibilidad";
+        }//if-else
+    });
+</script>

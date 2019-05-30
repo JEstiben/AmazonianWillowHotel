@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="62cebb130f71400cb5775d9f0de57fed" Name="Diagram1">
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Administrador" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Caracteristica" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Estado" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Habitacion" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Imagen" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Info" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Pagina" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Promocion" Width="1.5" PointX="5.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Publicidad" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Reservacion" Width="1.5" PointX="10.5" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Hotel_Amazonian_WillowModel.Tipo_Habitacion" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Caracteris__tipo__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Habitacio__estad__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Publicida__estad__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Reservaci__estad__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Habitacion__tipo__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Reservaci__habit__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Info__imagen__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Publicida__image__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Tipo_Habi__image__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Info__idPagina__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="Hotel_Amazonian_WillowModel.FK__Promocion__tipoH__4CA06362" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

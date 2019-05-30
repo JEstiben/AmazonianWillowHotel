@@ -1,0 +1,22 @@
+﻿@{
+    var count = 0;
+    foreach (var item in (List<AmazoniamWillowHotel.Models.Publicidad>)ViewData["Advertisng"])
+    {
+        var base64ImagenHotel = Convert.ToBase64String(item.Imagen1.imagen1);
+        string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+            
+        if (count == 0)
+        {
+            <div class="item active">
+                <a href="@item.url" target="_blank"><img src="@imgSrcImagenHotel" alt="Publicidad"></a>
+            </div>
+            count++;
+        }
+        else
+        {
+            <div class="item">
+                <a href="@item.url" target="_blank"><img src="@imgSrcImagenHotel" alt="Publicidad"></a>
+            </div>
+        }
+    }
+}

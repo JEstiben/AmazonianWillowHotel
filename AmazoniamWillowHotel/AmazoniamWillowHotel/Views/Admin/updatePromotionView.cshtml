@@ -1,0 +1,191 @@
+﻿@model AmazoniamWillowHotel.Models.Tipo_Habitacion
+
+@{
+    ViewBag.Title = "insertPromotionView";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="form-horizontal">
+    <h4>Promocion</h4>
+    <hr />
+    <div id="promotion" name="promotion">
+        <div class='form-group'>
+            <label class='control-label col-md-2'>Promociones:</label>;
+            <div class='col-md-10'>
+                <select class='Form-control' id='promos'></select>
+            </div>
+        </div>
+    </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Descripción</label>
+            <div class="col-md-10">
+                <textarea class="form-control" rows="5" id="comment"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Descuento</label>
+            <div class="col-md-10">
+                <input id="idescuento" class="form-control" type="number" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha incio:</label>
+            <div class="col-md-10">
+                <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="date" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Fecha final:</label>
+            <div class="col-md-10">
+                <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="date" />
+            </div>
+        </div>
+        <div id="selected" name="selected">
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" onclick="updatePromotion();" value="Update" class="btn btn-default" />
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" onclick="deletePromotion();" value="Delete" class="btn btn-default" />
+            </div>
+        </div>
+</div>
+
+
+        <script>
+            $(document).ready(function () {
+                var bodyTable2 = "";
+                $.ajax({
+                    type: 'POST',
+                    url: "/Admin/getPromotion",
+                    dataType: 'json',
+
+                    success: function (promo) {
+                        var data = JSON.stringify(promo);
+                        alert(data);
+
+                        for (var i = 0; i < promo.length; i++) {
+                            bodyTable2 += "<option value=" + promo[i].id + ">" + promo[i].descripcion + "</option>";
+                        }
+
+                        $("#promos").html(bodyTable2);
+
+                        var bodyTable = "";
+                        $.ajax({
+                            type: 'POST',
+                            url: "/Promotion/getTypes",
+                            dataType: 'json',
+
+                            success: function (types) {
+                                var data = JSON.stringify(types);
+                                bodyTable += "<div class='form-group'>";
+                                bodyTable += "<label class='control-label col-md-2'>Tipos:</label>";
+                                bodyTable += "<div class='col-md-10'>";
+                                bodyTable += "<select class='Form-control' id='tipos'>";
+                                for (var i = 0; i < types.length; i++) {
+                                    bodyTable += "<option value=" + types[i].id + ">" + types[i].titulo + "</option>";
+                                }
+                                bodyTable += "</div>";
+                                bodyTable += "</select>";
+                                bodyTable += "";
+
+                                bodyTable += "</div>";
+
+                                $("#selected").html(bodyTable);
+                            },
+                            error: function (ex) {
+                                // md.modal('hide');
+                                alert('Fallo al procesar la reservación.' + ex);
+                            }
+                        });
+
+                    },
+                    error: function (ex) {
+                        // md.modal('hide');
+                        alert('Fallo al procesar la reservación.' + ex);
+                    }
+                });
+            });
+
+            function updatePromotion() {
+                var id = document.getElementById("promos").value;
+                var comment = document.getElementById("comment").value;
+                var idescuento = parseInt(document.getElementById("idescuento").value);
+                var iFechaInicio = document.getElementById("iFechaInicio").value;
+                var iFechaFinal = document.getElementById("iFechaFinal").value;
+                var tipo = parseInt(document.getElementById("tipos").value);
+                var datos = {
+                    "id": id,"comment": comment, "idescuento": idescuento,
+                    "iFechaInicio": iFechaInicio, "iFechaFinal": iFechaFinal, "tipo": tipo
+                };
+                alert(datos);
+                $.ajax({
+                    type: 'POST',
+                    url: "/Admin/updatePromotion",
+                    dataType: 'json',
+                    data: datos,
+                    success: function (message) {
+
+                        alert(JSON.stringify(message));
+                        
+                    },
+                    error: function (ex) {
+                        // md.modal('hide');
+                        alert('Fallo al procesar la reservación.' + ex);
+                    }
+                });
+                location.reload();
+            }
+
+
+            function deletePromotion() {
+                var id = document.getElementById("promos").value;
+                
+                var datos = {"id": id};
+                $.ajax({
+                    type: 'POST',
+                    url: "/Admin/DeletePromotion",
+                    dataType: 'json',
+                    data: datos,
+                    success: function (message) {
+
+                        alert(JSON.stringify(message));
+                    },
+                    error: function (ex) {
+                        // md.modal('hide');
+                        alert('Fallo al procesar la reservación.' + ex);
+                    }
+                });
+                location.reload();
+            }
+
+
+            $("#promos").change(function () {
+                var bodyTable = "";
+                var id = document.getElementById("promos").value;
+                alert(id);
+                var datos = {"id": id};
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/Admin/getOnePromotion",
+                    dataType: 'json',
+                    data:datos,
+                    success: function (promo) {
+                        document.getElementById("comment").value = promo[0].descripcion;
+                        document.getElementById("idescuento").value=promo[0].descuento ;
+                        $('#iFechaInicio').val(promo[0].inicio);
+                        $('#iFechaFinal').val(promo[0].fin);
+                        document.getElementById("tipos").value = promo[0].tipo;
+                    },
+                    error: function (ex) {
+                        // md.modal('hide');
+                        alert('Fallo al procesar la reservación.' + ex);
+                    }
+                });
+            });
+
+        </script>

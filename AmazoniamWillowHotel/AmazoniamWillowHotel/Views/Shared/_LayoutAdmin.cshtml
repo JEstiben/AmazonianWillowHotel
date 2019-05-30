@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Amazonian Willow Administration</title>
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Great Taste Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+               function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/Public/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Public/css/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Public/images/logo.png" />
+    <!-- js -->
+    <script src="~/Public/js/jquery.js"></script>
+    <script src="~/Public/js/jquery-ui.js"></script>
+    <script src="~/Public/js/bootstrap.min.js"></script>
+    <script src="~/Public/js/bootstrap.js"></script>
+    <!-- //js -->
+    <link href='~/Public/css/OpenSans.css' rel='stylesheet' type='text/css'>
+    <link href='~/Public/css/GreatVibes.css' rel='stylesheet' type='text/css'>
+    <link href='~/Public/css/Comfortaa.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <!-- banner-body -->
+    <div class="banner-body">
+        <div class="container">
+            <div class="banner-body-content">
+                <div class="logo">
+                    <div class="logo-left">
+                        <a href="~/Admin/Index"><img style="max-width: 100%;" src="~/Public/images/logo.png"></a>
+                    </div>
+                    <div class="salir">
+                        @if (Session["username"] != null)
+                        {
+                            <p>Bienvenido @Session["nombre"] <a href="~/Admin/Exit"><i class="menu"></i>Cerrar sesión</a></p>
+
+                        }
+                        else
+                        {
+                            <a href="~/Home/Index"><i class="menu"></i>Página Cliente</a>
+                        }
+                    </div>
+                    <div class="nombre">
+                        <h2>Hotel Amazonian Willow Administration</h2>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <hr>
+                <div class="col-xs-4 banner-body-left">
+                    <div class="top-nav">
+                        <nav class="navbar navbar-default">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+                                <nav class="stroke">
+                                    <ul class="nav navbar-nav">
+
+                                        @if (Session["username"] != null)
+                                        {
+                                            <li><a href="~/Admin/Index" class="hvr-underline-from-left"><i class="menu"></i>Home</a></li>
+                                            <li><a href="~/Admin/ModifyPages" class="hvr-underline-from-left"><i class="menu"></i>Modificar Páginas</a></li>
+                                            <li><a href="~/Admin/ListReservations" class="hvr-underline-from-left"><i class="menu"></i>Listado de reservaciones</a></li>
+                                            <li><a href="~/Admin/ManageRooms" class="hvr-underline-from-left"><i class="menu"></i>Administrar habitaciones</a></li>
+                                            <li><a href="~/Admin/SeeAvailableDay" class="hvr-underline-from-left"><i class="menu"></i>Ver estado del hotel hoy</a></li>
+                                            <li><a href="~/Admin/CheckAvailability" class="hvr-underline-from-left"><i class="menu"></i>Consultar disponibilidad</a></li>
+                                            <li><a href="~/Admin/Advertising" class="hvr-underline-from-left"><i class="menu"></i>Publicidad</a></li>
+
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- /.navbar-collapse -->
+                        </nav>
+                    </div>
+                </div>
+                <div class="container body-content col-xs-8">
+                    @RenderBody()
+                </div>
+                <div class="clearfix"> </div>
+                <hr>
+                <div class="footer">
+                    <div class="footer-right">
+                        <p>Copyright © Hotel Amazonian Willow 2019</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //banner-body -->
+</body>
+</html>

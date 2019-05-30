@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "showPromotion";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    int cont = 0;
+}
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Promocion>)ViewData["Promotions"])
+{
+    var base64ImagenHotel = Convert.ToBase64String(item.Tipo_Habitacion.Imagen1.imagen1);
+    string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+
+    <div class="row">
+        <div class="col-sm-4">
+            <img width="100%" src="@imgSrcImagenHotel">
+        </div>
+        <div class="col-sm-8">
+            <h3 class="form-control">Promoción habitación @item.Tipo_Habitacion.titulo</h3><br />
+            <p class="text-info center-block">@item.descripcion</p>
+            <p class="text-info center-block">Descuento: @item.descuento%</p>
+            <p class="text-info center-block">Promoción valida del @item.inicio.ToString().Split(' ')[0]   al @item.fin.ToString().Split(' ')[0]</p>
+            
+        </div>
+    </div>
+    <br />
+    <br />
+}

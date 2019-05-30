@@ -1,0 +1,111 @@
+﻿@model AmazoniamWillowHotel.Models.Tipo_Habitacion
+
+@{
+    ViewBag.Title = "insertPromotionView";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div class="form-horizontal">
+    <h4>Promocion</h4>
+    <hr />
+    <div class="form-group">
+        <label class="control-label col-md-2">Descripción</label>
+        <div class="col-md-10">
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Descuento</label>
+        <div class="col-md-10">
+            <input id="idescuento" class="form-control" type="number" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Fecha incio:</label>
+        <div class="col-md-10">
+            <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="date" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Fecha final:</label>
+        <div class="col-md-10">
+            <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="date" />
+        </div>
+    </div>
+    <div id="selected" name="selected">
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" onclick="insertPromotion();" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    
+
+    $(document).ready(function () {
+        var bodyTable = "";
+        $.ajax({
+            type: 'POST',
+            url: "/Promotion/getTypes",
+            dataType: 'json',
+
+            success: function (types) {
+                var data = JSON.stringify(types);
+                bodyTable += "<div class='form-group'>";
+                bodyTable += "<label class='control-label col-md-2'>Tipos:</label>";
+                bodyTable += "<div class='col-md-10'>";
+                bodyTable += "<select class='Form-control' id='tipos'>";
+                for (var i = 0; i < types.length; i++) {
+                    bodyTable += "<option value=" + types[i].id + ">" + types[i].titulo+ "</option>";
+                }
+                bodyTable += "</div>";
+                bodyTable += "</select>";
+                bodyTable += "</div>";
+
+                $("#selected").html(bodyTable);
+            },
+            error: function (ex) {
+                // md.modal('hide');
+                alert('Fallo al procesar la reservación.' + ex);
+            }
+        });
+
+    });
+
+    function insertPromotion() {
+
+        var comment     = document.getElementById("comment").value;
+        var idescuento      =parseInt(document.getElementById("idescuento").value);
+        var iFechaInicio    = document.getElementById("iFechaInicio").value;
+        var iFechaFinal = document.getElementById("iFechaFinal").value;
+        var tipo = parseInt(document.getElementById("tipos").value);
+        var datos = {  "comment": comment, "idescuento": idescuento,
+            "iFechaInicio": iFechaInicio, "iFechaFinal": iFechaFinal, "tipo": tipo
+        };
+        alert(datos);
+        $.ajax({
+            type: 'POST',
+            url: "/Admin/insertPromotion",
+            dataType: 'json',
+            data: datos,
+            success: function (message) {
+
+                alert(JSON.stringify(message));
+            },
+            error: function (ex) {
+                // md.modal('hide');
+                alert('Fallo al procesar la reservación.' + ex);
+            }
+        });
+    }
+
+
+</script>
