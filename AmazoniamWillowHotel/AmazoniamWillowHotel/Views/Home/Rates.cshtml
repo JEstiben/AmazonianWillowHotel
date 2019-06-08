@@ -20,9 +20,15 @@
         <div class="col-sm-9">
             <h3>@item.titulo</h3>
             <br />
-            <p>@item.descripcion</p>
+            @{
+                var parrrafos = item.descripcion.Split('^');
+                foreach (String p in parrrafos)
+                {
+                    <p>@p</p><br />
+                }
+            }
             <p>Precio: $@item.tarifa</p>
-            <br/>
+            <br />
             <p>Caracteristicas:</p>
 
             @foreach (var caracteristica in (List<AmazoniamWillowHotel.Models.Caracteristica>)@item.Caracteristica.ToList())
