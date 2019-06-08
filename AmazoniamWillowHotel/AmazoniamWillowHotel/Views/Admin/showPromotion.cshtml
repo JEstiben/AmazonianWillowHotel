@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     int cont = 0;
 }
+@Html.ActionLink("Agregar promoción", "insertPromotionView")
+<br />
+<br />
 @foreach (var item in (List<AmazoniamWillowHotel.Models.Promocion>)ViewData["Promotions"])
 {
     var base64ImagenHotel = Convert.ToBase64String(item.Tipo_Habitacion.Imagen1.imagen1);
@@ -14,11 +17,11 @@
             <img width="100%" src="@imgSrcImagenHotel">
         </div>
         <div class="col-sm-8">
-            <h3 class="form-control">Promoción habitación @item.Tipo_Habitacion.titulo</h3><br />
+            <h3>Promoción habitación @item.Tipo_Habitacion.titulo</h3><br />
             <p class="text-info center-block">@item.descripcion</p>
             <p class="text-info center-block">Descuento: @item.descuento%</p>
             <p class="text-info center-block">Promoción valida del @item.inicio.ToString().Split(' ')[0]   al @item.fin.ToString().Split(' ')[0]</p>
-            
+            @Html.ActionLink("Editar", "updatePromotionView", new { id = item.id })
         </div>
     </div>
     <br />
