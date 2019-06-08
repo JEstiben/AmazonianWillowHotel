@@ -19,6 +19,7 @@
                     <tr>
                         <th scope="col">Número de Habitación</th>
                         <th scope="col">Estado</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody id="body">
@@ -28,12 +29,13 @@
                         <td>@habitacion.numero</td>
                         @if (@habitacion.estado == 1)
                         {
-                            <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked/></td>
+                            <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked /></td>
                         }
                         else
                         {
-                            <td><input type="checkbox"/></td>
+                            <td><input type="checkbox" /></td>
                         }
+                        <td>Activa?</td>
                     </tr>
                     }
                 </tbody>

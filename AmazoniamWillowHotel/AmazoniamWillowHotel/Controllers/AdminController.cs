@@ -233,7 +233,7 @@ namespace AmazoniamWillowHotel.Controllers
             tipo_Habitacion.id = id;
             tipo_Habitacion.titulo = titulo;
             tipo_Habitacion.tarifa = rate;
-            tipo_Habitacion.descripcion = description;
+            tipo_Habitacion.descripcion = description.Replace("\n", "^").Replace("\r", "");
 
             if (img != null)
             {

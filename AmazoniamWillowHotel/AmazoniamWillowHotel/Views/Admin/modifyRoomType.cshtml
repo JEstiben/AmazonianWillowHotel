@@ -33,7 +33,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                @Html.TextArea("description", type.descripcion, new { @class = "form-control", @rows = "10" })
+                @Html.TextArea("description", type.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })
             </div>
         </div>
         <br />
