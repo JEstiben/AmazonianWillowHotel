@@ -80,15 +80,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <li><a href="~/Admin/SeeAvailableDay" class="hvr-underline-from-left"><i class="menu"></i>Ver estado del hotel hoy</a></li>
                                             <li><a href="~/Admin/CheckAvailability" class="hvr-underline-from-left"><i class="menu"></i>Consultar disponibilidad</a></li>
                                             <li><a href="~/Admin/Advertising" class="hvr-underline-from-left"><i class="menu"></i>Publicidad</a></li>
-                                            <div class="dropdown">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Promociones
-                                                <span class="caret"></span></button>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="~/Admin/insertPromotionView">Nueva promoción</a></li>
-                                                    <li><a href="~/Admin/updatePromotionView">Actualizar promoción</a></li>
-                                                    <li><a href="~/Admin/showPromotion">Mostrar promociones</a></li>
-                                                </ul>
-                                            </div>
+                                            <li><a href="~/Admin/showPromotion" class="hvr-underline-from-left"><i class="menu"></i>Promoción</a></li>
                                         }
 
                                     </ul>
@@ -97,6 +89,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <!-- /.navbar-collapse -->
                         </nav>
                     </div>
+                </div>
+                <div style="margin: 0 auto; width: 25%;">
+                    @if (TempData["success"] != null)
+                    {
+                        <spam class="text-success">TempData["success"]</spam>
+                        TempData.Remove("success");
+                    }
+                    @if (TempData["error"] != null)
+                    {
+                        <spam class="text-danger">TempData["error"]</spam>
+                        TempData.Remove("error");
+                    }
+                    @if (TempData["message"] != null)
+                    {
+                        <spam class="text-danger">TempData["message"]</spam>
+                        TempData.Remove("message");
+                    }
                 </div>
                 <div class="container body-content col-xs-8">
                     @RenderBody()
