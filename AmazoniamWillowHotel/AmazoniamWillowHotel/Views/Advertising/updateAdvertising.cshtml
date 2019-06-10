@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Actualizar Publicidad";
+}
+
+@if (ViewData["Advertisng"] != null)
+{
+
+    var type = (AmazoniamWillowHotel.Models.Publicidad)ViewData["Advertisng"];
+    var base64ImagenHotel = Convert.ToBase64String(type.Imagen1.imagen1);
+    string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+
+    <h3>Modificar habitación</h3>
+    <br />
+
+
+    using (Html.BeginForm("updateAdvertisingDB", "Advertising", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-horizontal">
+            <h4>Publicidad</h4>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    @Html.Label("Imagen actual")
+                    <br />
+                    <img src="@imgSrcImagenHotel" width="70%" />
+                </div>
+                <div class="col-sm-4">
+
+                    @Html.Label("Link Destino: ")
+                    <input id="url" name="url" class="form-control" type="text" value="@type.url" required />
+                    <br />
+                    <br />
+                    @Html.Label("Subir nueva imagen: ")
+                    <br />
+
+                    <div class="form-group">
+                        <div class="input-group input-file" name="img">
+                            <input type="text" class="form-control" required />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-choose" type="button">Buscar</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4" style="float: right;">
+                    <input type="submit" value="Aceptar" class="btn btn-primary" />
+                    @Html.ActionLink("Eliminar", "deleteAdvertising", new { id = type.id, url = type.url, imagenVieja = type.Imagen1.id_Imagen }, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+    }
+}
+<script>
+
+    function bs_input_file() {
+        $(".input-file").before(
+            function () {
+                if (!$(this).prev().hasClass('input-ghost')) {
+                    var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                    element.attr("name", $(this).attr("name"));
+                    element.change(function () {
+                        element.next(element).find('input').val((element.val()).split('\\').pop());
+                    });
+                    $(this).find("button.btn-choose").click(function () {
+                        element.click();
+                    });
+                    $(this).find("button.btn-reset").click(function () {
+                        element.val(null);
+                        $(this).parents(".input-file").find('input').val('');
+                    });
+                    $(this).find('input').css("cursor", "pointer");
+                    $(this).find('input').mousedown(function () {
+                        $(this).parents('.input-file').prev().click();
+                        return false;
+                    });
+                    return element;
+                }
+            }
+        );
+    }
+    $(function () {
+        bs_input_file();
+    });
+
+</script>

@@ -79,7 +79,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <li><a href="~/Admin/ManageRooms" class="hvr-underline-from-left"><i class="menu"></i>Administrar habitaciones</a></li>
                                             <li><a href="~/Admin/SeeAvailableDay" class="hvr-underline-from-left"><i class="menu"></i>Ver estado del hotel hoy</a></li>
                                             <li><a href="~/Admin/CheckAvailability" class="hvr-underline-from-left"><i class="menu"></i>Consultar disponibilidad</a></li>
-                                            <li><a href="~/Admin/Advertising" class="hvr-underline-from-left"><i class="menu"></i>Publicidad</a></li>
+                                            <li><a href="~/Advertising/showAdvertising" class="hvr-underline-from-left"><i class="menu"></i>Publicidad</a></li>
                                             <li><a href="~/Admin/showPromotion" class="hvr-underline-from-left"><i class="menu"></i>Promoción</a></li>
                                         }
 
@@ -90,22 +90,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </nav>
                     </div>
                 </div>
-                <div style="margin: 0 auto; width: 25%;">
-                    @if (TempData["success"] != null)
-                    {
-                        <spam class="text-success">TempData["success"]</spam>
-                        TempData.Remove("success");
-                    }
-                    @if (TempData["error"] != null)
-                    {
-                        <spam class="text-danger">TempData["error"]</spam>
-                        TempData.Remove("error");
-                    }
-                    @if (TempData["message"] != null)
-                    {
-                        <spam class="text-danger">TempData["message"]</spam>
-                        TempData.Remove("message");
-                    }
+                <!-- Modal -->
+                <div class="modal fade" id="modalMessage" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2>@TempData["tituloModal"]</h2>
+                                @TempData.Remove("tituloModal");
+                            </div>
+                            <div class="modal-body">
+                                @if (TempData["success"] != null)
+                                {
+                                    <spam id="success" name="success" class="text-success">@TempData["success"]</spam>
+                                    TempData.Remove("success");
+                                }
+                                @if (TempData["error"] != null)
+                                {
+                                    <spam id="error" name="error" class="text-danger">@TempData["error"]</spam>
+                                    TempData.Remove("error");
+                                }
+                                @if (TempData["message"] != null)
+                                {
+                                    <spam id="message" name="message" class="text-warning">@TempData["message"]</spam>
+                                    TempData.Remove("message");
+                                }
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="container body-content col-xs-8">
                     @RenderBody()
@@ -123,3 +138,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- //banner-body -->
 </body>
 </html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var success = $("#success").val();
+        var error = $("#error").val();
+        var message = $("#message").val();
+        if (success != null || error != null || message != null) {
+            $("#modalMessage").modal();
+        }
+    });
+</script>

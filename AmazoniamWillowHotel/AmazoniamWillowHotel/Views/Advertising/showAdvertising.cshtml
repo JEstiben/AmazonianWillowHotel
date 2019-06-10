@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Ver Publicidad";
+    int cont = 0;
+}
+@Html.ActionLink("Agregar publicidad", "insertAdvertising")
+<br />
+<br />
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Publicidad>)ViewData["Advertisng"])
+{
+    var base64ImagenHotel = Convert.ToBase64String(item.Imagen1.imagen1);
+    string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
+
+    <div class="row">
+        <div class="col-sm-4">
+            <a href="@item.url"><img width="70%" src="@imgSrcImagenHotel" alt="Publicidad"></a>
+        </div>
+        <div class="col-sm-8">
+            <h3>Información de la publicidad</h3><br />
+            <p class="text-info center-block">URL: @item.url</p>
+            <br/>
+            @Html.ActionLink("Editar", "updateAdvertising", new { id = item.id })
+        </div>
+    </div>
+    <br />
+    <br />
+}
