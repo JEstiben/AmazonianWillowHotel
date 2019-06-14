@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Reporte Habitaciones";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div id="tableRooms" class="table-bordered">
+        <table id="table" class="table-responsive">
+            <thead id="EncabezaodHead">
+            <th>Código:</th>
+            <th><input class="form-control" type="text" id="Codigo" name="Codigo" /></th>
+            <th>Versión:</th>
+            <th><input class="form-control" type="text" id="Version" name="Version" /></th>
+            <th>Rige a partir:</th>
+            <th><input class="form-control" type="date" id="FechaRegir" name="FechaRegir" /></th>
+            </thead>
+        </table>
+    </div>
+</body>
+</html>
