@@ -139,7 +139,7 @@ namespace AmazoniamWillowHotel.Controllers
             {
                 smtp.Send(email);
             }
-            catch (Exception except)
+            catch (Exception ex)
             {
                 email.Dispose();
             }

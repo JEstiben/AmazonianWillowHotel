@@ -122,26 +122,28 @@ AS BEGIN
 	BEGIN TRANSACTION
 	BEGIN TRY
 	Declare @numero int, @titulo varchar(100), @descripcion varchar(max), @tarifa float, @imagen int
-		If exists(SELECT Habitacion.numero FROM Habitacion WHERE Habitacion.tipo = @idTipoHabitacion AND Habitacion.estado = 1)
-		BEGIN
-			SELECT TOP 1 @numero = h.numero, @titulo = th.titulo, @descripcion = th.descripcion, @tarifa = th.tarifa, @imagen = i.id_Imagen
-			FROM Habitacion h
-			Join Tipo_Habitacion th on h.tipo = th.id Join Imagen i on th.imagen = i.id_Imagen
-			WHERE th.id = @idTipoHabitacion AND h.estado = 1;
+	Set @numero = 0;
+	Set @titulo = '';
+	Set @descripcion = 'No hay Habitaciones';
+	Set @tarifa = 0;
+	Set @imagen = 0;
+	
+	select TOP 1 @numero = h.numero, @titulo = th.titulo, @descripcion = th.descripcion, @tarifa = th.tarifa, @imagen = i.id_Imagen
+		from Habitacion h, Tipo_Habitacion th Join Imagen i on th.imagen = i.id_Imagen
+		where h.estado = 1 and h.tipo = th.id and 
+				(h.tipo = @idTipoHabitacion or @idTipoHabitacion = 0) and -- Si es 0 envia todos los tipos
+				h.id not in (select Reservacion.habitacion from Reservacion, Habitacion 
+									where (	Habitacion.id=Reservacion.habitacion  and (
+											(@fechaInicio between Reservacion.fechaInicio and Reservacion.fechaFin) or
+											(@fechaFin between Reservacion.fechaInicio and Reservacion.fechaFin) or
+											(Reservacion.fechaInicio between @fechaInicio and @fechaFin) or
+											(Reservacion.fechaFin between @fechaInicio and @fechaFin))-- and
+									) -- where
+							) --not in
+				
+		Update Habitacion Set Habitacion.estado = 8 Where Habitacion.numero = @numero;
 
-			Update Habitacion Set Habitacion.estado = 8 Where Habitacion.numero = @numero;
-
-			SELECT @numero as numero, @titulo as titulo, @descripcion as descripcion, @tarifa as tarifa, @imagen as imagen;
-		END
-		Else
-		Begin
-			Set @numero = 0;
-			Set @titulo = '';
-			Set @descripcion = 'No hay Habitaciones';
-			Set @tarifa = 0;
-			Set @imagen = 0;
-			SELECT @numero as numero, @titulo as titulo, @descripcion as descripcion, @tarifa as tarifa, @imagen as imagen;
-		End
+		SELECT @numero as numero, @titulo as titulo, @descripcion as descripcion, @tarifa as tarifa, @imagen as imagen;
 	COMMIT TRANSACTION;
 	RETURN (1);
 	END TRY  
