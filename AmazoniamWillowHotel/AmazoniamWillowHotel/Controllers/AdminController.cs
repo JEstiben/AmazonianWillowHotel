@@ -11,6 +11,7 @@ namespace AmazoniamWillowHotel.Controllers
 {
     public class AdminController : Controller
     {
+
         public ActionResult Login()
         {
             if (isNotLogin())
@@ -58,7 +59,7 @@ namespace AmazoniamWillowHotel.Controllers
         }
 
         public bool isNotLogin() {
-            if (Session["username"] != null)
+            if (Session != null && Session["username"] != null)
                 return false;
             return true;
         }
@@ -112,8 +113,16 @@ namespace AmazoniamWillowHotel.Controllers
             return View();
         }
 
-        public ActionResult updatePromotionView()
+        [HttpGet]
+        public ActionResult updatePromotionView(int? id)
         {
+
+            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            {
+                ViewData["Habitaciones"] = mo.Tipo_Habitacion.ToList();
+
+                ViewData["Promotion"] = mo.Promocion.Where(p => p.id == id).Include(p => p.Tipo_Habitacion).Include(p => p.Tipo_Habitacion.Imagen1).FirstOrDefault();
+            }
 
             return View();
         }
@@ -126,25 +135,6 @@ namespace AmazoniamWillowHotel.Controllers
                 ViewData["Promotions"] = mo.Promocion.Include(p => p.Tipo_Habitacion).Include(p => p.Tipo_Habitacion.Imagen1).ToList();
             }
             return View();
-        }
-
-        public JsonResult getTypes()
-        {
-            var mo = new Models.Hotel_Amazonian_WillowEntities();
-
-            return Json(mo.sp_getTypes(), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult getPromotion()
-        {
-            var mo = new Models.Hotel_Amazonian_WillowEntities();
-            return Json(mo.sp_getPromotions(), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult getOnePromotion(int id)
-        {
-            var mo = new Models.Hotel_Amazonian_WillowEntities();
-            return Json(mo.sp_getPromotion(id), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeletePromotion(int id)
@@ -276,31 +266,7 @@ namespace AmazoniamWillowHotel.Controllers
 
             if (img != null)
             {
-                try
-                {
-                    if (img.ContentLength > 0)
-                    {
-                        byte[] imageData = null;
-                        using (var binaryReader = new BinaryReader(img.InputStream))
-                        {
-                            imageData = binaryReader.ReadBytes(img.ContentLength);
-                        }
-                        using (var mo = new Models.Hotel_Amazonian_WillowEntities())
-                        {
-                            ObjectResult<Models.InsertImage_Result> result = mo.InsertImage(img.FileName, imageData);
-
-                            Models.InsertImage_Result insertImage1 = new Models.InsertImage_Result();
-                            foreach (Models.InsertImage_Result insertImage  in result)
-                                insertImage1 = insertImage;
-                            tipo_Habitacion.imagen = Convert.ToInt32(insertImage1.id_Imagen);
-                        }
-
-                    }//if
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.Error = ex;
-                }//try-catch.
+                tipo_Habitacion.imagen = actualizarImagen(img);
             }
             else
             {
@@ -322,6 +288,36 @@ namespace AmazoniamWillowHotel.Controllers
 
             return View();
         }
+
+        public int actualizarImagen(HttpPostedFileBase img)
+        {
+            try
+            {
+                if (img.ContentLength > 0)
+                {
+                    byte[] imageData = null;
+                    using (var binaryReader = new BinaryReader(img.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(img.ContentLength);
+                    }
+                    using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                    {
+                        ObjectResult<Models.InsertImage_Result> result = mo.InsertImage(img.FileName, imageData);
+
+                        Models.InsertImage_Result insertImage1 = new Models.InsertImage_Result();
+                        foreach (Models.InsertImage_Result insertImage in result)
+                            insertImage1 = insertImage;
+                        return Convert.ToInt32(insertImage1.id_Imagen);
+                    }
+
+                }//if
+            }
+            catch (Exception ex)
+            {
+                
+            }//try-catch.
+            return 0;
+        }//actualizarImagen
 
     }//class
 }//namespace

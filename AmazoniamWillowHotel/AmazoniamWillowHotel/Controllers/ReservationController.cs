@@ -62,17 +62,30 @@ namespace AmazoniamWillowHotel.Controllers
             return View();
         }//RoomNotAvailable
 
-        public JsonResult checkAvailability(int TipoHabitacion, String fechaLlegada, String fechaSalida)
+        public JsonResult checkAvailability(int TipoHabitacion, DateTime fechaLlegada, DateTime fechaSalida)
         {
             using (var mo = new Models.Hotel_Amazonian_WillowEntities())
             {
-                DateTime fechaLlegada1 = DateTime.Parse(fechaLlegada);
-                DateTime fechaSalida1 = DateTime.Parse(fechaSalida);
-                ObjectResult<Models.CheckAvailability_Result> result = mo.CheckAvailability(TipoHabitacion, fechaLlegada1, fechaSalida1);
-
                 Models.CheckAvailability_Result checkAvailability1 = new Models.CheckAvailability_Result();
+
+                ObjectResult<Models.CheckAvailability_Result> result = mo.CheckAvailability(TipoHabitacion, fechaLlegada, fechaSalida);
+                
                 foreach (Models.CheckAvailability_Result checkAvailability in result)
                     checkAvailability1 = checkAvailability;
+
+                if(checkAvailability1.descripcion == "No hay Habitaciones")
+                {
+                    result = mo.CheckAvailability(0, fechaLlegada, fechaSalida);
+
+                    foreach (Models.CheckAvailability_Result checkAvailability in result)
+                        checkAvailability1 = checkAvailability;
+
+                    if (checkAvailability1.descripcion != "No hay Habitaciones")
+                    {
+                        TempData["tituloModal"] = "Información";
+                        TempData["message"] = "No hay habitaciones del tipo especificado, pero tenemos la siguiente sugerencia";
+                    }
+                }
 
                 Thread.Sleep(3000);
                 return Json(checkAvailability1, JsonRequestBehavior.AllowGet);

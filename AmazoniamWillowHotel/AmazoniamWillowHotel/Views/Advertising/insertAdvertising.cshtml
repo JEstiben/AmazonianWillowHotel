@@ -1,52 +1,22 @@
-﻿
-@{
-    ViewBag.Title = "Modificar habitación";
+﻿@{
+    ViewBag.Title = "Insertar Publicidad";
 }
 
-@if (ViewData["information"] != null)
+@using (Html.BeginForm("insertAdvertisingDB", "Advertising", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
-    var type = (AmazoniamWillowHotel.Models.Tipo_Habitacion)ViewData["information"];
-    var base64ImagenHotel = Convert.ToBase64String(type.Imagen1.imagen1);
-    string imgSrcImagenHotel = String.Format("data:image/gif;base64,{0}", base64ImagenHotel);
-
-    <h3>Modificar habitación</h3>
-    <br />
-
-    using (Html.BeginForm("updateRoomType", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-
-        <div class="row">
-            <input type="hidden" id="id" name="id" class="form-control" value="@type.id" />
-            <div class="col-sm-2">
-                @Html.Label(type.titulo)
-                <input type="hidden" id="titulo" name="titulo" class="form-control" value="@type.titulo" />
-            </div>
-            <div class="col-sm-3 text-center">
-                @Html.Label("Tarifa diaria: ")
-            </div>
-            <div class="col-sm-3">
-                @Html.TextBox("rate", type.tarifa, new { @type = "number", @class = "form-control" })
-            </div>
-            </div>
+    <div class="form-horizontal">
+        <h4>Publicidad</h4>
         <br />
-
-        <div class="row">
-            <div class="col-sm-12">
-                @Html.TextArea("description", type.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })
-            </div>
-        </div>
-        <br />
-
         <div class="row">
             <div class="col-sm-4">
-                @Html.Label("Imagen actual")
+                @Html.Label("")
                 <br />
-                <img src="@imgSrcImagenHotel" width="100%" />
-                <input type="hidden" id="imagenVieja" name="imagenVieja" class="form-control" value="@type.Imagen1.id_Imagen" />
+                <img id="imgSalida" src="" width="70%" />
             </div>
             <div class="col-sm-4">
 
+                @Html.Label("Link Destino: ")
+                <input id="url" name="url" class="form-control" type="text" required />
                 <br />
                 <br />
                 @Html.Label("Subir nueva imagen: ")
@@ -54,7 +24,7 @@
 
                 <div class="form-group">
                     <div class="input-group input-file" name="img">
-                        <input type="text" class="form-control" />
+                        <input type="text" class="form-control" required />
                         <span class="input-group-btn">
                             <button class="btn btn-default btn-choose" type="button">Buscar</button>
                         </span>
@@ -63,20 +33,18 @@
 
             </div>
 
-            <div class="col-sm-4">
-                <input type="submit" value="Aceptar" class="btn btn-primary" />
-                @Html.ActionLink("Cancelar", "ManageRooms", null, new { @class = "btn btn-danger" })
-            </div>
-
         </div>
-        
-        
-
-    }
+        <div class="row">
+            <div class="col-sm-4" style="float: right;">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                @Html.ActionLink("Cancelar", "showAdvertising", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
 }
 
-
 <script>
+
     function bs_input_file() {
         $(".input-file").before(
             function () {
@@ -106,4 +74,5 @@
     $(function () {
         bs_input_file();
     });
+
 </script>
