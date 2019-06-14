@@ -177,7 +177,7 @@ namespace AmazoniamWillowHotel.Controllers
 
         }//end method
 
-        public JsonResult updatePromotion(int id,string comment, int idescuento, DateTime iFechaInicio, DateTime iFechaFinal, int tipo)
+        public JsonResult updatePromotion(int id, string comment, int idescuento, DateTime iFechaInicio, DateTime iFechaFinal, int tipo)
         {
 
             if (comment != null && idescuento != 0 && tipo != 0
@@ -188,7 +188,7 @@ namespace AmazoniamWillowHotel.Controllers
                 promo.id = id;
                 promo.inicio = iFechaInicio;
                 promo.descripcion = comment;
-                promo.fin= iFechaFinal;
+                promo.fin = iFechaFinal;
                 promo.tipoHabitacion = tipo;
                 promo.descuento = idescuento;
 
@@ -226,6 +226,45 @@ namespace AmazoniamWillowHotel.Controllers
 
             return View();
         }
+
+    [HttpGet]
+    public ActionResult  updateState(int? type)
+    {
+            var mo = new Models.Hotel_Amazonian_WillowEntities();
+
+
+            if (type != null)
+            {
+                Models.Habitacion habitacionModel = mo.Habitacion.Where(x => x.id == type).FirstOrDefault();
+                if (habitacionModel.estado == 4)
+                {
+                    habitacionModel.estado = 3;
+                }
+                else if(habitacionModel.estado != 4)
+                {
+                    habitacionModel.estado = 4;
+                }//end else-if
+
+                mo.Entry(habitacionModel).State = EntityState.Modified;
+
+                try
+                {
+                    mo.SaveChanges();
+                }
+                catch (Exception ec)
+                {
+                    Console.WriteLine(ec.Message);
+                }
+
+            }//end if
+               if (!isNotLogin())
+            {
+              
+                    ViewData["AdministrarHabitaciones"] = mo.Tipo_Habitacion.Include(p => p.Habitacion).ToList();
+            }
+            return View("ManageRooms");
+
+        }//end updateState
 
         public ActionResult updateRoomType(int id, String titulo, double rate, String description, int imagenVieja, HttpPostedFileBase img)
         {
@@ -278,6 +317,11 @@ namespace AmazoniamWillowHotel.Controllers
 
             return View("ManageRooms");
         }//updateRoomType
+
+        public ActionResult reportRoomsView() {
+
+            return View();
+        }
 
     }//class
 }//namespace

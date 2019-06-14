@@ -253,9 +253,6 @@
     <Compile Include="Models\sp_makeReservation_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_roomDay_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Tipo_Habitacion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -331,6 +328,8 @@
     <Content Include="Public\js\jquery.chocolat.js" />
     <Content Include="Public\js\jquery.min.js" />
     <Content Include="Public\js\jquery.wmuSlider.js" />
+    <Content Include="Public\PDF\jspdf.debug.js" />
+    <Content Include="Public\PDF\jspdf.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -394,6 +393,7 @@
     <Content Include="Views\Admin\updatePromotionView.cshtml" />
     <Content Include="Views\Admin\modifyRoomType.cshtml" />
     <Content Include="Views\Admin\ManageRooms.cshtml" />
+    <Content Include="Views\Admin\reportRoomsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

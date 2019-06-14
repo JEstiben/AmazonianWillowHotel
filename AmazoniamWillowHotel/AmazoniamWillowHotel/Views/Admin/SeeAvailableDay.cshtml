@@ -2,21 +2,28 @@
 @{
     ViewBag.Title = "Habitaciones del día de hoy";
 }
-
 <h2>Disponibilidad de Hoy</h2>
-<table class="table table-responsive">
-    <thead>
-        <tr>
-            <th scope="col">Habitación</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Estado</th>
-            <th scope="col">Tarifa</th>
-        </tr>
-    </thead>
-    <tbody id="body"></tbody>
-</table>
+<script type="text/javascript" src="~/Public/PDF/jspdf.min.js"></script>
+<div id="rooms">
+    <table id="table" class="table table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Habitación</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Tarifa</th>
+            </tr>
+        </thead>
+        <tbody id="body"></tbody>
+    </table>
+</div>
+<div>
+    <button type="button" onclick="reportPDF();" class="btn btn-dark">Download PDF</button>
+</div>
 
 <script>
+
+
     $(document).ready(function () {
         var bodyTable = "";
         $.ajax({
@@ -26,7 +33,6 @@
 
             success: function (roomDay) {
                 var data = JSON.stringify(roomDay);
-               
                 for (var i = 0; i < roomDay.length; i++) {
                     bodyTable += "<tr><th scope='row'>" + roomDay[i].numero + "</th>";
                     bodyTable += "<td scope='rowgroup'>" + roomDay[i].tipo + "</td>";
@@ -44,7 +50,47 @@
 
     });
 
+
+    function reportPDF() {
+        document.getElementById('rooms').style.display = "block";
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        source = $('#rooms')[0];
+
+        specialElementHandlers = {
+            '#bypassme': function (element, renderer) {
+                return true
+            }
+        };
+        margins = {
+            top: 100,
+            bottom: 50,
+            left: 72,
+            width: 600
+        };
+
+        pdf.fromHTML(
+          source,
+          margins.left,
+          margins.top, {
+              'width': margins.width,
+              'elementHandlers': specialElementHandlers
+          });
+        var f = new Date();
     
+        pdf.setFontSize(18);
+        pdf.text(120, 22, "ESTADO DE LAS HABITACIONES DEL DÍA DE HOY");
+
+        pdf.setFontSize(12);
+        pdf.text(510, 40, "Fecha: "+ f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
+
+        /*obtener fecha de hoy*/
+        var f = new Date();
+
+        pdf.setFontSize(14);
+        pdf.text(210, 43, "HOTEL AMAZONIAN WILLOW");
+
+        pdf.save("Reporte Habitaciones -" + f.getYear() + ".pdf");
+    }//end report
 
 
 </script>
