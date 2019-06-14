@@ -207,11 +207,6 @@ namespace AmazoniamWillowHotel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_makeReservation_Result>("sp_makeReservation", identificacionParameter, nombreParameter, apellidosParameter, correoParameter, tarjetaParameter, fechaVencimientoParameter, codigoSeguridadParameter, numeroParameter, fechaLlegadaParameter, fechaSalidaParameter, montoParameter);
         }
     
-        public virtual ObjectResult<sp_roomDay_Result> sp_roomDay()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_roomDay_Result>("sp_roomDay");
-        }
-    
         public virtual ObjectResult<CheckAvailability_Result> CheckAvailability(Nullable<int> idTipoHabitacion, Nullable<System.DateTime> fechaInicio, Nullable<System.DateTime> fechaFin)
         {
             var idTipoHabitacionParameter = idTipoHabitacion.HasValue ?
@@ -300,11 +295,6 @@ namespace AmazoniamWillowHotel.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<InsertImage_Result>("InsertImage", nombreParameter, imagenParameter);
         }
     
-        public virtual ObjectResult<getRoomsDay_Result> getRoomsDay()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getRoomsDay_Result>("getRoomsDay");
-        }
-    
         public virtual ObjectResult<CheckRoomsAvailable_Result> CheckRoomsAvailable(Nullable<System.DateTime> llegada, Nullable<System.DateTime> salida, Nullable<int> tipo)
         {
             var llegadaParameter = llegada.HasValue ?
@@ -320,6 +310,11 @@ namespace AmazoniamWillowHotel.Models
                 new ObjectParameter("tipo", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CheckRoomsAvailable_Result>("CheckRoomsAvailable", llegadaParameter, salidaParameter, tipoParameter);
+        }
+    
+        public virtual ObjectResult<getRoomsDay_Result> getRoomsDay()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getRoomsDay_Result>("getRoomsDay");
         }
     }
 }
