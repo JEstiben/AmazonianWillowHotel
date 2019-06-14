@@ -115,20 +115,22 @@ CREATE TABLE Administrador(
 
 --------------------------------------------------------
 
-exec sp_checkAvailability 7, '2019-06-01', '2019-07-02'
+exec sp_checkAvailability 1, '2019-06-01', '2019-07-02'
 
 CREATE PROCEDURE sp_checkAvailability @idTipoHabitacion INT, @fechaInicio Date, @fechaFin Date
 AS BEGIN
 	BEGIN TRANSACTION
 	BEGIN TRY
-	Declare @numero int, @titulo varchar(100), @descripcion varchar(max), @tarifa float, @imagen int
+	Declare @numero int, @titulo varchar(100), @descripcion varchar(max), @tarifa float, @imagen int, @tipoHabitacion int, @descuento int
 	Set @numero = 0;
 	Set @titulo = '';
 	Set @descripcion = 'No hay Habitaciones';
 	Set @tarifa = 0;
 	Set @imagen = 0;
+	Set @tipoHabitacion = 0;
+	Set @descuento = 0;
 	
-	select TOP 1 @numero = h.numero, @titulo = th.titulo, @descripcion = th.descripcion, @tarifa = th.tarifa, @imagen = i.id_Imagen
+	select TOP 1 @tipoHabitacion = th.id, @numero = h.numero, @titulo = th.titulo, @descripcion = th.descripcion, @tarifa = th.tarifa, @imagen = i.id_Imagen
 		from Habitacion h, Tipo_Habitacion th Join Imagen i on th.imagen = i.id_Imagen
 		where h.estado = 1 and h.tipo = th.id and 
 				(h.tipo = @idTipoHabitacion or @idTipoHabitacion = 0) and -- Si es 0 envia todos los tipos
@@ -142,6 +144,15 @@ AS BEGIN
 							) --not in
 				
 		Update Habitacion Set Habitacion.estado = 8 Where Habitacion.numero = @numero;
+
+		if(@tipoHabitacion <> 0)
+		begin
+			if exists(Select * from Promocion where (GetDate() between inicio and fin) and tipoHabitacion = @tipoHabitacion)
+			begin
+				Select @descuento = descuento from Promocion where (GetDate() between inicio and fin) and tipoHabitacion = @tipoHabitacion;
+				Set @tarifa = @tarifa-(@tarifa*(@descuento/100));
+			end
+		end
 
 		SELECT @numero as numero, @titulo as titulo, @descripcion as descripcion, @tarifa as tarifa, @imagen as imagen;
 	COMMIT TRANSACTION;
