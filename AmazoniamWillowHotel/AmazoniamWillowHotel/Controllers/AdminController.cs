@@ -144,27 +144,34 @@ namespace AmazoniamWillowHotel.Controllers
             return Json("Eliminado", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult insertPromotion(string comment, int idescuento, DateTime iFechaInicio, DateTime iFechaFinal, int tipo) {
-
-            if (comment != null && idescuento != 0 && tipo != 0
-                && iFechaFinal != null && iFechaInicio != null)
+        public JsonResult insertPromotion(string comment, int idescuento, DateTime iFechaInicio, DateTime iFechaFinal, int tipo)
+        {
+            try
             {
-                var mo = new Models.Hotel_Amazonian_WillowEntities();
 
-                mo.Promocion.Add(new Models.Promocion
+                if (comment != null && idescuento != 0 && tipo != 0
+                && iFechaFinal != null && iFechaInicio != null)
                 {
-                    descripcion = comment,
-                    descuento = idescuento,
-                    inicio = iFechaInicio,
-                    fin = iFechaFinal,
-                    tipoHabitacion = tipo
-                });
-                mo.SaveChanges();
-                return Json("OK", JsonRequestBehavior.AllowGet);
-            }//end validation nulls
+                    var mo = new Models.Hotel_Amazonian_WillowEntities();
+
+                    mo.Promocion.Add(new Models.Promocion
+                    {
+                        descripcion = comment,
+                        descuento = idescuento,
+                        inicio = iFechaInicio,
+                        fin = iFechaFinal,
+                        tipoHabitacion = tipo
+                    });
+                    mo.SaveChanges();
+                    return Json("OK", JsonRequestBehavior.AllowGet);
+                }//end validation nulls
+            }
+            catch (Exception e)
+            {
+                return Json(e.ToString(), JsonRequestBehavior.AllowGet);
+            }
 
             return Json("ERROR", JsonRequestBehavior.AllowGet);
-
         }//end method
 
         public JsonResult updatePromotion(int id, string comment, int idescuento, DateTime iFechaInicio, DateTime iFechaFinal, int tipo)

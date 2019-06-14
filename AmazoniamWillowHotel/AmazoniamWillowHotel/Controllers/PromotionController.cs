@@ -29,5 +29,12 @@ namespace AmazoniamWillowHotel.Controllers
             return View();
         }
 
+        public JsonResult getTypes()
+        {
+            var mo = new Models.Hotel_Amazonian_WillowEntities();
+
+            return Json(mo.sp_getTypes(), JsonRequestBehavior.AllowGet);
+        }
+
     }//class
 }//namespace
