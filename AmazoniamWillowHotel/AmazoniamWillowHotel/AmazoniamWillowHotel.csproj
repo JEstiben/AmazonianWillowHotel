@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdvertisingController.cs" />
     <Compile Include="Controllers\FacilitieController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PromotionController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -397,6 +398,9 @@
     <Content Include="Views\Advertising\showAdvertising.cshtml" />
     <Content Include="Views\Advertising\insertAdvertising.cshtml" />
     <Content Include="Views\Advertising\updateAdvertising.cshtml" />
+    <Content Include="Views\Page\ModifyPages.cshtml" />
+    <Content Include="Views\Page\ModifyHomePage.cshtml" />
+    <Content Include="Views\Page\ModifyAboutPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
