@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Insertar Publicidad";
+}
+
+@using (Html.BeginForm("insertAdvertisingDB", "Advertising", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <h4>Publicidad</h4>
+        <br />
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.Label("")
+                <br />
+                <img id="imgSalida" src="" width="70%" />
+            </div>
+            <div class="col-sm-4">
+
+                @Html.Label("Link Destino: ")
+                <input id="url" name="url" class="form-control" type="text" required oninvalid="setCustomValidity('Se requiere una URL para registrar la publicidad')" oninput="setCustomValidity('')" />
+                @Html.Partial("_UploadImage")
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-4" style="float: right;">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                @Html.ActionLink("Cancelar", "showAdvertising", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>
+    </div>
+}

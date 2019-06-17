@@ -54,6 +54,9 @@ namespace AmazoniamWillowHotel.Controllers
 
             correo(nombreCompleto, correo_, numeroReserva, montoR);
 
+            TempData["tituloModal"] = "Confirmación";
+            TempData["success"] = "La reservación se ha procesado con éxito.";
+
             return View(makeReservation);
         }//ReservationInformation
 
@@ -62,17 +65,40 @@ namespace AmazoniamWillowHotel.Controllers
             return View();
         }//RoomNotAvailable
 
-        public JsonResult checkAvailability(int TipoHabitacion, String fechaLlegada, String fechaSalida)
+        public JsonResult checkAvailability(int TipoHabitacion, DateTime fechaLlegada, DateTime fechaSalida)
         {
             using (var mo = new Models.Hotel_Amazonian_WillowEntities())
             {
-                DateTime fechaLlegada1 = DateTime.Parse(fechaLlegada);
-                DateTime fechaSalida1 = DateTime.Parse(fechaSalida);
-                ObjectResult<Models.CheckAvailability_Result> result = mo.CheckAvailability(TipoHabitacion, fechaLlegada1, fechaSalida1);
-
                 Models.CheckAvailability_Result checkAvailability1 = new Models.CheckAvailability_Result();
+
+                ObjectResult<Models.CheckAvailability_Result> result = mo.CheckAvailability(TipoHabitacion, fechaLlegada, fechaSalida);
+                
                 foreach (Models.CheckAvailability_Result checkAvailability in result)
                     checkAvailability1 = checkAvailability;
+
+                if(checkAvailability1.descripcion == "No hay Habitaciones")
+                {
+                    result = mo.CheckAvailability(0, fechaLlegada, fechaSalida);
+
+                    foreach (Models.CheckAvailability_Result checkAvailability in result)
+                        checkAvailability1 = checkAvailability;
+
+                    if (checkAvailability1.descripcion != "No hay Habitaciones")
+                    {
+                        TempData["tituloModal"] = "Atención";
+                        TempData["message"] = "No hay habitaciones del tipo especificado, pero tenemos la siguiente sugerencia";
+                    }
+                    else
+                    {
+                        TempData["tituloModal"] = "Oops!!";
+                        TempData["error"] = "Lo sentimos en este momento no tenemos habitaciones disponibles para las fechas ingresadas.";
+                    }
+                }
+                else
+                {
+                    TempData["tituloModal"] = "Confirmación";
+                    TempData["success"] = "Se ha encontrado la siguiente habitación disponible.";
+                }
 
                 Thread.Sleep(3000);
                 return Json(checkAvailability1, JsonRequestBehavior.AllowGet);
@@ -102,9 +128,31 @@ namespace AmazoniamWillowHotel.Controllers
             {
                 mo.FreeRoom(numero);
 
+                TempData["tituloModal"] = "Atención";
+                TempData["message"] = "La habitación que teniamos pre-reservada para usted se ha liberado.";
+
                 return Json("Cancelado", JsonRequestBehavior.AllowGet);
             }
         }//freeRoom
+
+        public JsonResult loadData(String Identificacion)
+        {
+            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            {
+                Models.Reservacion reservation = new Models.Reservacion();
+                reservation = mo.Reservacion.Where(x => x.identificacion == Identificacion).FirstOrDefault();
+
+                if (reservation != null)
+                {
+                    return Json(reservation.nombre + "^" + reservation.apellidos + "^" + reservation.correo, JsonRequestBehavior.AllowGet);
+                    //return Json(reservation, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+        }//loadData
 
         public void correo(String nombreCompleto, String correo_, int numeroReserva, float montoR)
         {
@@ -126,7 +174,7 @@ namespace AmazoniamWillowHotel.Controllers
             {
                 smtp.Send(email);
             }
-            catch (Exception except)
+            catch (Exception ex)
             {
                 email.Dispose();
             }

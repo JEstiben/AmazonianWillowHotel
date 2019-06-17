@@ -26,14 +26,14 @@
                 @Html.Label("Tarifa diaria: ")
             </div>
             <div class="col-sm-3">
-                @Html.TextBox("rate", type.tarifa, new { @type = "number", @class = "form-control" })
+                <input type="number" id="rate" name="rate" class="form-control" value="@type.tarifa" required oninvalid="setCustomValidity('Se requiere una tarifa para el tipo de habitación')" oninput="setCustomValidity('')"/>
             </div>
-            </div>
+        </div>
         <br />
 
         <div class="row">
             <div class="col-sm-12">
-                @Html.TextArea("description", type.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })
+                <textarea type="text" id="description" name="description" class="form-control" rows="10" required oninvalid="setCustomValidity('Se requiere una descripción para el tipo de habitación')" oninput="setCustomValidity('')" style="resize: none;">@type.descripcion.Replace("^", "\n")</textarea>
             </div>
         </div>
         <br />
@@ -45,65 +45,19 @@
                 <img src="@imgSrcImagenHotel" width="100%" />
                 <input type="hidden" id="imagenVieja" name="imagenVieja" class="form-control" value="@type.Imagen1.id_Imagen" />
             </div>
-            <div class="col-sm-4">
-
-                <br />
-                <br />
-                @Html.Label("Subir nueva imagen: ")
-                <br />
-
-                <div class="form-group">
-                    <div class="input-group input-file" name="img">
-                        <input type="text" class="form-control" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-default btn-choose" type="button">Buscar</button>
-                        </span>
-                    </div>
-                </div>
-
-            </div>
 
             <div class="col-sm-4">
-                <input type="submit" value="Aceptar" class="btn btn-primary" />
-                <input type="submit" value="Cancelar" class="btn btn-danger" />
+                @Html.Partial("_UploadImage")
             </div>
 
         </div>
-        
-        
+
+        <div class="row">
+            <div class="col-sm-4" style="float: right;">
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                @Html.ActionLink("Cancelar", "ManageRooms", null, new { @class = "btn btn-danger" })
+            </div>
+        </div>
 
     }
 }
-
-
-<script>
-    function bs_input_file() {
-        $(".input-file").before(
-            function () {
-                if (!$(this).prev().hasClass('input-ghost')) {
-                    var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
-                    element.attr("name", $(this).attr("name"));
-                    element.change(function () {
-                        element.next(element).find('input').val((element.val()).split('\\').pop());
-                    });
-                    $(this).find("button.btn-choose").click(function () {
-                        element.click();
-                    });
-                    $(this).find("button.btn-reset").click(function () {
-                        element.val(null);
-                        $(this).parents(".input-file").find('input').val('');
-                    });
-                    $(this).find('input').css("cursor", "pointer");
-                    $(this).find('input').mousedown(function () {
-                        $(this).parents('.input-file').prev().click();
-                        return false;
-                    });
-                    return element;
-                }
-            }
-        );
-    }
-    $(function () {
-        bs_input_file();
-    });
-</script>

@@ -160,6 +160,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdvertisingController.cs" />
     <Compile Include="Controllers\FacilitieController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PromotionController.cs" />
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -253,9 +254,6 @@
     <Compile Include="Models\sp_makeReservation_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_roomDay_Result.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Tipo_Habitacion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -331,6 +329,8 @@
     <Content Include="Public\js\jquery.chocolat.js" />
     <Content Include="Public\js\jquery.min.js" />
     <Content Include="Public\js\jquery.wmuSlider.js" />
+    <Content Include="Public\PDF\jspdf.debug.js" />
+    <Content Include="Public\PDF\jspdf.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -394,6 +394,14 @@
     <Content Include="Views\Admin\updatePromotionView.cshtml" />
     <Content Include="Views\Admin\modifyRoomType.cshtml" />
     <Content Include="Views\Admin\ManageRooms.cshtml" />
+    <Content Include="Views\Admin\reportRoomsView.cshtml" />
+    <Content Include="Views\Advertising\showAdvertising.cshtml" />
+    <Content Include="Views\Advertising\insertAdvertising.cshtml" />
+    <Content Include="Views\Advertising\updateAdvertising.cshtml" />
+    <Content Include="Views\Page\ModifyPages.cshtml" />
+    <Content Include="Views\Page\ModifyHomePage.cshtml" />
+    <Content Include="Views\Page\ModifyAboutPage.cshtml" />
+    <Content Include="Views\Shared\_UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

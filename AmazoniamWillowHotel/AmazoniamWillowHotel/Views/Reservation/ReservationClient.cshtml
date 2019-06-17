@@ -69,6 +69,7 @@
     @Html.Label("Código de Seguridad (cvv):")
     <input type="text" id="codigoS" name="CodigoS" class="form-control" />
     <p id="spanCodigoS" class="text-danger"></p>
+    <br/>
     <input value="Aceptar" id="Aceptar" name="Aceptar" type="button" class="btn btn-primary">
     <input value="Cancelar" id="Cancelar" name="Cancelar" type="button" class="btn btn-danger">
     @using (Html.BeginForm("ReservationInformation", "Reservation", FormMethod.Post, new { id = "myForm" }))
@@ -86,6 +87,43 @@
         $('#fechaV').mask("99/99");
         $('#codigoS').mask("999");
     });  
+
+    $("#identificacion").blur(function () {
+        var identificacion = $(this).val();
+        cargarDatos(identificacion);
+    });
+
+    function cargarDatos(identificacion) {
+        if (identificacion != '') {
+
+            $.ajax({
+                type: 'POST',
+                url: "/Reservation/loadData",
+                dataType: 'json',
+                data: { Identificacion: identificacion },
+
+                success: function (reservation) {
+                    if (reservation != "") {
+                        var cliente = reservation.split("^");
+                        document.getElementById('nombre').value = cliente[0];
+                        document.getElementById('apellidos').value = cliente[1];
+                        document.getElementById('correo').value = cliente[2];
+                    } else {
+                        document.getElementById('nombre').value = "";
+                        document.getElementById('apellidos').value = "";
+                        document.getElementById('correo').value = "";
+                    }//if-else
+                    document.getElementById("spanIdentificacion").innerHTML = "";
+                },
+                error: function (ex) {
+                    alert('Fallo al cargar los datos.' + ex);
+                }
+            });
+            
+        } else {
+            document.getElementById("spanIdentificacion").innerHTML = "Se requiere una identificación para procesar la reservación";
+        }
+    }
 
     $("#Aceptar").click("click", function () {
         document.getElementById("spanCodigoS").innerHTML = "";

@@ -8,7 +8,7 @@
 
 <div class="form-horizontal">
     <h4>Promocion</h4>
-    <hr />
+    <br />
     <div class="form-group">
         <label class="control-label col-md-2">Descripción</label>
         <div class="col-md-10">
@@ -24,7 +24,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Fecha incio:</label>
         <div class="col-md-10">
-            <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="date" />
+            <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="text" value="dd/mm/aaaa"/>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Fecha final:</label>
         <div class="col-md-10">
-            <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="date" />
+            <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="text" value="dd/mm/aaaa"/>
         </div>
     </div>
     <div id="selected" name="selected">
@@ -40,7 +40,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="button" onclick="insertPromotion();" value="Create" class="btn btn-default" />
+            <input type="button" onclick="insertPromotion();" value="Crear Promoción" class="btn btn-primary" />
         </div>
     </div>
 </div>
@@ -102,10 +102,25 @@
             },
             error: function (ex) {
                 // md.modal('hide');
-                alert('Fallo al procesar la reservación.' + ex);
+                alert('Fallo al crear la promocion.' + ex);
             }
         });
     }
 
-
+    $(function () {
+        var dateFormat = "dd/mm/yy",
+            fechaLlegada = $("#iFechaInicio").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    var fecha = $("#iFechaInicio").datepicker("getDate");
+                    fecha.setDate(fecha.getDate() + 1);
+                    fechaSalida.datepicker("option", "minDate", fecha);
+                    fechaSalida.datepicker("setDate", "dd/mm/aaaa")
+                }),
+            fechaSalida = $("#iFechaFinal").datepicker({ minDate: 0, dateFormat: dateFormat })
+                .on("change", function () {
+                    var fecha = $("#iFechaFinal").datepicker("getDate");
+                    fecha.setDate(fecha.getDate());
+                    fechaLlegada.datepicker("option", "maxDate", fecha);
+                });
+    });
 </script>

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\jaguero\Source\Repos\AmazoniamWillowHotel\AmazoniamWillowHotel\AmazoniamWillowHotel\Models\Model.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Alfonso\Desktop\Hotel\AmazonianWillowHotel\AmazoniamWillowHotel\AmazoniamWillowHotel\Models\Model.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

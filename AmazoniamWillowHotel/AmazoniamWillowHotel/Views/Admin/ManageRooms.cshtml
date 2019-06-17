@@ -29,11 +29,16 @@
                         <td>@habitacion.numero</td>
                         @if (@habitacion.estado == 1)
                         {
-                            <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked /></td>
+                            <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked />
+                            @Html.ActionLink("Actualizar estado", "updateState", new { type = habitacion.id })</td>
                         }
                         else
                         {
-                            <td><input type="checkbox" /></td>
+                            <td>
+                                <input type="checkbox" id="@habitacion.id" name="@habitacion.id" />
+                                @Html.ActionLink("Actualizar estado", "updateState", new { type = habitacion.id })
+                            </td>
+
                         }
                         <td>Activa?</td>
                     </tr>
@@ -44,4 +49,35 @@
     </div>
     <br />
     <br />
+
+    <script>
+
+        function actualizarEstados() {
+
+            $.ajax({
+                type: 'POST',
+                url: "/Admin/updatesRooms",
+                dataType: 'json',
+
+                success: function (roomDay) {
+                    var data = JSON.stringify(roomDay);
+                    for (var i = 0; i < roomDay.length; i++) {
+                        bodyTable += "<tr><th scope='row'>" + roomDay[i].numero + "</th>";
+                        bodyTable += "<td scope='rowgroup'>" + roomDay[i].tipo + "</td>";
+                        bodyTable += "<td scope='rowgroup'>" + roomDay[i].estado + "</td>";
+                        bodyTable += "<td scope='rowgroup'>" + roomDay[i].tarifa + "</td></tr>";
+
+                    }
+                    $("#body").html(bodyTable);
+                },
+                error: function (ex) {
+                    // md.modal('hide');
+                    alert('Fallo al procesar la reservación.' + ex);
+                }
+            });
+
+        }
+
+    </script>
+
 }
