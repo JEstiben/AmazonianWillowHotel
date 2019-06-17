@@ -104,10 +104,15 @@
 
                 success: function (reservation) {
                     if (reservation != "") {
-                        document.getElementById('nombre').value = reservation.nombre;
-                        document.getElementById('apellidos').value = reservation.apellidos;
-                        document.getElementById('correo').value = reservation.correo;
-                    }//if retorno algo
+                        var cliente = reservation.split("^");
+                        document.getElementById('nombre').value = cliente[0];
+                        document.getElementById('apellidos').value = cliente[1];
+                        document.getElementById('correo').value = cliente[2];
+                    } else {
+                        document.getElementById('nombre').value = "";
+                        document.getElementById('apellidos').value = "";
+                        document.getElementById('correo').value = "";
+                    }//if-else
                 },
                 error: function (ex, a, b) {
                     alert('Fallo al cargar los datos.' + ex);
