@@ -401,6 +401,7 @@
     <Content Include="Views\Page\ModifyPages.cshtml" />
     <Content Include="Views\Page\ModifyHomePage.cshtml" />
     <Content Include="Views\Page\ModifyAboutPage.cshtml" />
+    <Content Include="Views\Shared\_UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

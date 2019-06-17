@@ -54,6 +54,9 @@ namespace AmazoniamWillowHotel.Controllers
 
             correo(nombreCompleto, correo_, numeroReserva, montoR);
 
+            TempData["tituloModal"] = "Confirmación";
+            TempData["success"] = "La reservación se ha procesado con éxito.";
+
             return View(makeReservation);
         }//ReservationInformation
 
@@ -82,9 +85,19 @@ namespace AmazoniamWillowHotel.Controllers
 
                     if (checkAvailability1.descripcion != "No hay Habitaciones")
                     {
-                        TempData["tituloModal"] = "Información";
+                        TempData["tituloModal"] = "Atención";
                         TempData["message"] = "No hay habitaciones del tipo especificado, pero tenemos la siguiente sugerencia";
                     }
+                    else
+                    {
+                        TempData["tituloModal"] = "Oops!!";
+                        TempData["error"] = "Lo sentimos en este momento no tenemos habitaciones disponibles para las fechas ingresadas.";
+                    }
+                }
+                else
+                {
+                    TempData["tituloModal"] = "Confirmación";
+                    TempData["success"] = "Se ha encontrado la siguiente habitación disponible.";
                 }
 
                 Thread.Sleep(3000);
@@ -115,9 +128,24 @@ namespace AmazoniamWillowHotel.Controllers
             {
                 mo.FreeRoom(numero);
 
+                TempData["tituloModal"] = "Atención";
+                TempData["message"] = "La habitación que teniamos pre-reservada para usted se ha liberado.";
+
                 return Json("Cancelado", JsonRequestBehavior.AllowGet);
             }
         }//freeRoom
+
+        public JsonResult loadData(String Identificacion)
+        {
+            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            {
+                Models.Reservacion reservation = new Models.Reservacion();
+                reservation = mo.Reservacion.Where(x => x.identificacion == Identificacion).FirstOrDefault();
+
+                return Json(reservation, JsonRequestBehavior.AllowGet);
+                //return Json("ok", JsonRequestBehavior.AllowGet);
+            }
+        }//loadData
 
         public void correo(String nombreCompleto, String correo_, int numeroReserva, float montoR)
         {

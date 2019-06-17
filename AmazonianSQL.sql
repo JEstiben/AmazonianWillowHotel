@@ -150,7 +150,7 @@ AS BEGIN
 			if exists(Select * from Promocion where (GetDate() between inicio and fin) and tipoHabitacion = @tipoHabitacion)
 			begin
 				Select @descuento = descuento from Promocion where (GetDate() between inicio and fin) and tipoHabitacion = @tipoHabitacion;
-				Set @tarifa = @tarifa-(@tarifa*(@descuento/100));
+				Set @tarifa = @tarifa-(@tarifa*(@descuento/100.0));
 			end
 		end
 

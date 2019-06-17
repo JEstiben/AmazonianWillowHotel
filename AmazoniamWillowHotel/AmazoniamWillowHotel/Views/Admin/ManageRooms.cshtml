@@ -27,7 +27,7 @@
                     {
                     <tr>
                         <td>@habitacion.numero</td>
-                        @if (@habitacion.estado == 3)
+                        @if (@habitacion.estado == 1)
                         {
                             <td><input type="checkbox" id="@habitacion.id" name="@habitacion.id" checked />
                             @Html.ActionLink("Actualizar estado", "updateState", new { type = habitacion.id })</td>

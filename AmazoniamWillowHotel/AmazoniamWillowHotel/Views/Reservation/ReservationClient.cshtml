@@ -88,6 +88,37 @@
         $('#codigoS').mask("999");
     });  
 
+    $("#identificacion").blur(function () {
+        var identificacion = $(this).val();
+        cargarDatos(identificacion);
+    });
+
+    function cargarDatos(identificacion) {
+        if (identificacion != '') {
+
+            $.ajax({
+                type: 'POST',
+                url: "/Reservation/loadData",
+                dataType: 'json',
+                data: { Identificacion: identificacion },
+
+                success: function (reservation) {
+                    if (reservation != "") {
+                        document.getElementById('nombre').value = reservation.nombre;
+                        document.getElementById('apellidos').value = reservation.apellidos;
+                        document.getElementById('correo').value = reservation.correo;
+                    }//if retorno algo
+                },
+                error: function (ex, a, b) {
+                    alert('Fallo al cargar los datos.' + ex);
+                }
+            });
+            
+        } else {
+            document.getElementById("spanIdentificacion").innerHTML = "Se requiere una identificación para procesar la reservación";
+        }
+    }
+
     $("#Aceptar").click("click", function () {
         document.getElementById("spanCodigoS").innerHTML = "";
         document.getElementById("spanFechaV").innerHTML = "";
