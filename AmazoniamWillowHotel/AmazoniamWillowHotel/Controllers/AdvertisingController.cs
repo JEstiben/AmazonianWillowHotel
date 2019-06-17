@@ -68,98 +68,108 @@ namespace AmazoniamWillowHotel.Controllers
 
         public ActionResult deleteAdvertising(int id, String url, int imagenVieja)
         {
-            Models.Publicidad publicidad = new Models.Publicidad();
-            publicidad.id = id;
-            publicidad.url = url;
-            publicidad.estado = 4;
-            publicidad.imagen = imagenVieja;
-
-            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            if (!isNotLogin())
             {
-                mo.Entry(publicidad).State = EntityState.Modified;
-                mo.SaveChanges();
+                Models.Publicidad publicidad = new Models.Publicidad();
+                publicidad.id = id;
+                publicidad.url = url;
+                publicidad.estado = 4;
+                publicidad.imagen = imagenVieja;
 
-                ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
+                using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                {
+                    mo.Entry(publicidad).State = EntityState.Modified;
+                    mo.SaveChanges();
+
+                    ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
+                }
+
+                TempData["tituloModal"] = "Atención";
+                TempData["message"] = "La publicidad se ha eliminado exitosamente.";
+                return View("showAdvertising");
             }
-
-            TempData["tituloModal"] = "Exitoso";
-            TempData["success"] = "La publicidad se ha eliminado exitosamente.";
-            return View("showAdvertising");
+            return RedirectToAction("Login", "Admin");
         }//deletePromotion
 
         public ActionResult insertAdvertisingDB(String url, HttpPostedFileBase img)
         {
-            Models.Publicidad publicidad = new Models.Publicidad();
-            publicidad.url = url;
-            publicidad.id = 0;
-            publicidad.estado = 3;
-
-            if (img != null)
+            if (!isNotLogin())
             {
-                publicidad.imagen = imagen(img);
-                if (publicidad.imagen == -1)
+                Models.Publicidad publicidad = new Models.Publicidad();
+                publicidad.url = url;
+                publicidad.id = 0;
+                publicidad.estado = 3;
+
+                if (img != null)
+                {
+                    publicidad.imagen = imagen(img);
+                    if (publicidad.imagen == -1 || publicidad.imagen == 0)
+                    {
+                        TempData["tituloModal"] = "Oops!!";
+                        TempData["error"] = "Error al procesar la imagen.";
+                        return View("insertAdvertising");
+                    }
+                }
+                else
                 {
                     TempData["tituloModal"] = "Oops!!";
-                    TempData["error"] = "Error al procesar la imagen.";
-                    return View("showAdvertising");
+                    TempData["error"] = "No se ha seleccionado ninguna imagen.";
+                    return View("insertAdvertising");
+                }//if-else
+
+                using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                {
+                    mo.Entry(publicidad).State = EntityState.Added;
+                    mo.SaveChanges();
+
+                    ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
                 }
-            }
-            else
-            {
-                TempData["tituloModal"] = "Oops!!";
-                TempData["error"] = "No se ha seleccionado ninguna imagen.";
+
+                TempData["tituloModal"] = "Confirmación";
+                TempData["success"] = "La publicidad se ha insertado exitosamente.";
                 return View("showAdvertising");
-            }//if-else
-
-            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
-            {
-                mo.Entry(publicidad).State = EntityState.Added;
-                mo.SaveChanges();
-
-                ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
             }
-
-            TempData["tituloModal"] = "Exitoso";
-            TempData["success"] = "La publicidad se ha insertado exitosamente.";
-            return View("showAdvertising");
-
+            return RedirectToAction("Login", "Admin");
         }//insertAdvertisingDB
 
         public ActionResult updateAdvertisingDB(int id, String url, int imagenVieja, HttpPostedFileBase img)
         {
-            Models.Publicidad publicidad = new Models.Publicidad();
-            publicidad.id = id;
-            publicidad.url = url;
-            publicidad.estado = 3;
-
-            if (img != null)
+            if (!isNotLogin())
             {
-                publicidad.imagen = imagen(img);
-                if(publicidad.imagen == -1)
+                Models.Publicidad publicidad = new Models.Publicidad();
+                publicidad.id = id;
+                publicidad.url = url;
+                publicidad.estado = 3;
+
+                if (img != null)
                 {
-                    TempData["tituloModal"] = "Oops!!";
-                    TempData["error"] = "Error al procesar la imagen.";
-                    return View("showAdvertising");
+                    publicidad.imagen = imagen(img);
+                    if(publicidad.imagen == -1 || publicidad.imagen == 0)
+                    {
+                        TempData["tituloModal"] = "Oops!!";
+                        TempData["error"] = "Error al procesar la imagen.";
+                        return View("showAdvertising");
+                    }
                 }
+                else
+                {
+                    publicidad.imagen = imagenVieja;
+                }//if-else
+
+                using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                {
+                    mo.Entry(publicidad).State = EntityState.Modified;
+                    mo.SaveChanges();
+
+                    ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
+                }
+
+                TempData["tituloModal"] = "Atención";
+                TempData["message"] = "La publicidad se ha actualizado exitosamente.";
+
+                return View("showAdvertising");
             }
-            else
-            {
-                publicidad.imagen = imagenVieja;
-            }//if-else
-
-            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
-            {
-                mo.Entry(publicidad).State = EntityState.Modified;
-                mo.SaveChanges();
-
-                ViewData["Advertisng"] = mo.Publicidad.Where(p => p.estado == 3).Include(p => p.Imagen1).ToList();
-            }
-
-            TempData["tituloModal"] = "Exitoso";
-            TempData["success"] = "La publicidad se ha actualizado exitosamente.";
-
-            return View("showAdvertising");
-
+            return RedirectToAction("Login", "Admin");
         }//updateAdvertisingDB
 
         public int imagen(HttpPostedFileBase img)

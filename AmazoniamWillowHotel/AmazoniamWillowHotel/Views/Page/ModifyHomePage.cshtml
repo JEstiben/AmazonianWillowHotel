@@ -23,7 +23,7 @@
             <div class="row">
 
                 <div class="col-sm-12">
-                    @Html.TextArea("description", info.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })
+                    <textarea type="text" id="description" name="description" class="form-control" rows="10" required oninvalid="setCustomValidity('Se requiere una descripción para la página de Home')" oninput="setCustomValidity('')" style="resize: none;">@info.descripcion.Replace("^", "\n")</textarea>
                 </div>
 
             </div>
@@ -32,12 +32,16 @@
             <div class="row">
                 <div class="col-sm-4">
                     <img width="100%" src="@imgSrcImagenHotel">
+                    <input type="hidden" id="imagenVieja" name="imagenVieja" class="form-control" value="@info.Imagen1.id_Imagen" />
+                </div>
+                <div class="col-sm-4">
+                    @Html.Partial("_UploadImage")
                 </div>
             </div>
             <br />
 
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="float: right;">
                     <input type="submit" value="Aceptar" class="btn btn-primary" />
                     <a class="btn btn-danger delete" 
                        data-id = "0"
