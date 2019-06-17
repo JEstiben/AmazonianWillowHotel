@@ -142,8 +142,15 @@ namespace AmazoniamWillowHotel.Controllers
                 Models.Reservacion reservation = new Models.Reservacion();
                 reservation = mo.Reservacion.Where(x => x.identificacion == Identificacion).FirstOrDefault();
 
-                return Json(reservation, JsonRequestBehavior.AllowGet);
-                //return Json("ok", JsonRequestBehavior.AllowGet);
+                if (reservation != null)
+                {
+                    return Json(reservation.nombre + "^" + reservation.apellidos + "^" + reservation.correo, JsonRequestBehavior.AllowGet);
+                    //return Json(reservation, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
             }
         }//loadData
 
