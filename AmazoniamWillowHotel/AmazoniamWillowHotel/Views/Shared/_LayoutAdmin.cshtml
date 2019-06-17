@@ -74,7 +74,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         @if (Session["username"] != null)
                                         {
                                             <li><a href="~/Admin/Index" class="hvr-underline-from-left"><i class="menu"></i>Home</a></li>
-                                            <li><a href="~/Admin/ModifyPages" class="hvr-underline-from-left"><i class="menu"></i>Modificar Páginas</a></li>
+                                            <li><a href="~/Page/ModifyPages" class="hvr-underline-from-left"><i class="menu"></i>Modificar Páginas</a></li>
                                             <li><a href="~/Admin/ListReservations" class="hvr-underline-from-left"><i class="menu"></i>Listado de reservaciones</a></li>
                                             <li><a href="~/Admin/ManageRooms" class="hvr-underline-from-left"><i class="menu"></i>Administrar habitaciones</a></li>
                                             <li><a href="~/Admin/SeeAvailableDay" class="hvr-underline-from-left"><i class="menu"></i>Ver estado del hotel hoy</a></li>
@@ -99,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h2>@TempData["tituloModal"]</h2>
-                                @TempData.Remove("tituloModal");
+                                <!--@TempData.Remove("tituloModal");-->
                             </div>
                             <div class="modal-body">
                                 @if (TempData["success"] != null)
