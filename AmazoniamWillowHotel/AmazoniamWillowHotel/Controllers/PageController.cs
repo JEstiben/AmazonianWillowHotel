@@ -95,6 +95,36 @@ namespace AmazoniamWillowHotel.Controllers
             return View("../Admin/Index");
         }
 
+        public ActionResult ModifyHowToGetPage()
+        {
+            if (!isNotLogin())
+            {
+                using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                {
+                    ViewData["HowToGet"] = mo.Pagina.Where(x => x.nombre == "¿Como Llegar?").Include(p => p.Info).Include(p => p.Info.Select(x => x.Imagen1)).ToList();
+
+                }
+                return View();
+            }
+            return RedirectToAction("Login", "Admin");
+        }
+
+        [HttpPost]
+        public ActionResult ModifyHowToGetPage(string description)
+        {
+
+            var mo = new Models.Hotel_Amazonian_WillowEntities();
+            var home = mo.Pagina.Where(x => x.nombre == "¿Como Llegar?").Include(p => p.Info).Include(p => p.Info.Select(x => x.Imagen1)).First();
+            home.Info.First().descripcion = description.Replace("\n", "^");
+
+            mo.SaveChanges();
+
+            TempData["tituloModal"] = "Atención";
+            TempData["message"] = "Página ¿Como llegar? actualizada.";
+            return View("../Admin/Index");
+        }
+
+
         public int actualizarImagen(HttpPostedFileBase img)
         {
             try
