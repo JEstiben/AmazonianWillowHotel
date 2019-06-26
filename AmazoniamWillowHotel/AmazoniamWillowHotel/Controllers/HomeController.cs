@@ -26,7 +26,7 @@ namespace AmazoniamWillowHotel.Controllers
 
             using (var mo = new Models.Hotel_Amazonian_WillowEntities())
             {
-                ViewData["SobreNosotros"] = mo.Pagina.Where(x => x.nombre == "Sobre Nosotros").Include(p => p.Info).Include(p => p.Info.Select(x => x.Imagen1)).ToList();
+                ViewData["SobreNosotros"] = mo.Pagina.Where(x => x.nombre == "Sobre Nosotros").Include(p => p.Info).Include(p => p.Info.Select(x => x.Imagen1)).FirstOrDefault();
             }
 
             return View();
