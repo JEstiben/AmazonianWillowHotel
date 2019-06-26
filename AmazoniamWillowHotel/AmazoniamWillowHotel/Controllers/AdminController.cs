@@ -342,5 +342,36 @@ namespace AmazoniamWillowHotel.Controllers
             return 0;
         }//actualizarImagen
 
+        public ActionResult FacilitiesModify()
+        {
+            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            {
+                ViewData["Facilities"] = mo.Pagina.Where(x => x.nombre == "Facilidades").Include(p => p.Info).Include(p => p.Info.Select(x => x.Imagen1)).ToList();
+            }
+            return View();
+        }
+
+
+         [HttpPost]
+        public ActionResult modifyFacilities(int id, string description) {
+
+            var mo = new Models.Hotel_Amazonian_WillowEntities();
+            Models.Info facilitie =  mo.Info.Where(x => x.id == id).FirstOrDefault();
+            facilitie.descripcion = description;
+            mo.Entry(facilitie).State = EntityState.Modified;
+
+            try
+            {
+                mo.SaveChanges();
+            }
+            catch (Exception ec)
+            {
+                Console.WriteLine(ec.Message);
+            }
+            TempData["tituloModal"] = "Atención";
+            TempData["message"] = "Facilidad actualizada.";
+            return View("../Admin/Index");
+        }
+
     }//class
 }//namespace
