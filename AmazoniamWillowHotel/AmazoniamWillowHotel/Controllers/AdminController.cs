@@ -213,7 +213,7 @@ namespace AmazoniamWillowHotel.Controllers
         [HttpGet]
         public ActionResult modifyRoomType(int? type) {
 
-            if (isNotLogin())
+            if (!isNotLogin())
             {
                 if (type != null)
                 {
