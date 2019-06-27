@@ -2,44 +2,42 @@
 @{
     /**/
 
-    ViewBag.Title = "ModifyHowTogetPage";
+    ViewBag.Title = "ModifyAboutPage";
 }
 
 <h2>Modificar página</h2>
 <br />
 
-<h3>¿Como llegar?</h3>
+<h3>¿Cómo llegar?</h3>
 <br />
 
-@foreach (var item in (List<AmazoniamWillowHotel.Models.Pagina>)ViewData["HowToGet"])
+@foreach (var item in (List<AmazoniamWillowHotel.Models.Pagina>)ViewData["About"])
 {
     var info = (AmazoniamWillowHotel.Models.Info)@item.Info.First();
+    {
+            <div class="row">
 
-    <form action="ModifyHowToGetPage" method="post" enctype="multipart/form-data">
-        <div class="row">
+                <div class="col-sm-12">
+                    <textarea type="text" id="description" name="description" class="form-control" rows="10" required oninvalid="setCustomValidity('Se requiere una descripción para la página de ¿Cómo llegar?')" oninput="setCustomValidity('')" style="resize: none;">@Html.TextArea("description", info.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })</textarea>
+                </div>
 
-            <div class="col-sm-12">
-                @Html.TextArea("description", info.descripcion.Replace("^", "\n"), new { @class = "form-control", @rows = "10" })
             </div>
+            <br />
+            <br />
 
-        </div>
-        <br />
-
-
-        <div class="row">
-            <div class="col-sm-4">
-                <input type="submit" value="Aceptar" class="btn btn-primary" />
-                <a class="btn btn-danger delete"
-                   data-id="0"
-                   data-body-message="¿Descartar los cambios?"
-                   data-redirect-url="../Admin/Index">
-                    Cancelar
-                </a>
+            <div class="row">
+                <div class="col-sm-4" style="float: right;">
+                    <input type="submit" value="Aceptar" class="btn btn-primary" />
+                    <a class="btn btn-danger delete"
+                       data-id="0"
+                       data-body-message="¿Descartar los cambios?"
+                       data-redirect-url="../Admin/Index">
+                        Cancelar
+                    </a>
+                </div>
             </div>
-        </div>
-    </form>
-
-
+        }
+    }
 }
 
 <script>
