@@ -248,6 +248,9 @@
     <Compile Include="Models\sp_getPromotion_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_getReservationInfo_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_getTypes_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -404,6 +407,8 @@
     <Content Include="Views\Shared\_UploadImage.cshtml" />
     <Content Include="Views\Admin\FacilitiesModify.cshtml" />
     <Content Include="Views\Page\ModifyHowToGetPage.cshtml" />
+    <Content Include="Views\Admin\ListReservations.cshtml" />
+    <Content Include="Views\Admin\ReservationInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
