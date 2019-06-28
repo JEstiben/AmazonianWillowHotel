@@ -1,0 +1,167 @@
+﻿@model AmazoniamWillowHotel.Models.Reservacion
+
+@{
+    ViewBag.Title = "ReservationInfo";
+
+    DateTime fecha;
+    if (Model.Fecha != null)
+    {
+        fecha = (DateTime)Model.Fecha;
+    }
+    else { fecha = DateTime.Now; }
+
+    var tarjeta = Model.tarjeta.Substring(Model.tarjeta.Length - 4);
+}
+
+<script type="text/javascript" src="~/Public/PDF/jspdf.min.js"></script>
+
+
+<input type="hidden" id="fecha" name="fecha" value="@fecha.ToShortDateString()" />
+<input type="hidden" id="id" name="id" value="@Model.id" />
+<input type="hidden" id="nombre" name="nombre" value="@Model.nombre" />
+<input type="hidden" id="apellidos" name="apellidos" value="@Model.apellidos" />
+<input type="hidden" id="correo" name="correo" value="@Model.correo" />
+<input type="hidden" id="tarjeta" name="tarjeta" value="@tarjeta" />
+<input type="hidden" id="transaccion" name="transaccion" value="@Model.Transaccion" />
+<input type="hidden" id="inicio" name="inicio" value="@Model.fechaInicio.ToShortDateString()" />
+<input type="hidden" id="fin" name="fin" value="@Model.fechaFin.ToShortDateString()" />
+<input type="hidden" id="tipo" name="tipo" value="@Model.Habitacion1.Tipo_Habitacion.titulo" />
+
+
+<div id="reservation">
+    <table id="table" class="table table-responsive">
+        <thead>
+            <tr>
+                <th scope="col"><h4>Ver listado de reservaciones - Ver reservación</h4></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div class="col-xs-offset-3 col-xs-1 text-center delete">
+        <a class="btn btn-danger btn-lg delete"  data-body-message="¿Desea eliminar la reserva?" data-redirect-url="../DeleteReservation/@Model.id">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
+    </div>
+
+    <div class="col-xs-1 text-center">
+        <a class="btn btn-default btn-lg" href="javascript:reportPDF()">
+            <span class="glyphicon glyphicon-print"></span>
+        </a>
+    </div>
+</div>
+
+
+
+<script>
+    $((function () {
+        var url;
+        var redirectUrl;
+        var target;
+
+        $('body').append(`
+                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Atención</h4>
+                        </div>
+                        <div class="modal-body delete-modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-delete">Cancelar</button>
+                            <button type="button" class="btn btn-danger" id="confirm-delete">Eliminar</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>`);
+
+        //Delete Action
+        $(".delete").on('click', (e) => {
+            e.preventDefault();
+
+            target = e.target;
+            var Id = $(target).data('id');
+            var controller = $(target).data('controller');
+            var action = $(target).data('action');
+            var bodyMessage = $(target).data('body-message');
+            redirectUrl = $(target).data('redirect-url');
+
+            url = "/" + controller + "/" + action + "?Id=" + Id;
+            $(".delete-modal-body").text(bodyMessage);
+            $("#deleteModal").modal('show');
+        });
+
+        $("#confirm-delete").on('click', () => {
+            $.get(url)
+                .done((result) => {
+                    if (!redirectUrl) {
+                        return $(target).parent().parent().hide("slow");
+                    }
+                    window.location.href = redirectUrl;
+                })
+                .fail((error) => {
+                    if (redirectUrl)
+                        window.location.href = redirectUrl;
+                }).always(() => {
+                    $("#deleteModal").modal('hide');
+                });
+        });
+
+    }()));
+
+
+    $(document).ready(function () {
+       
+
+        var content = "";
+        content += "<tr><th scope='row'>Fecha: " + $('#fecha').val() + "</th></tr>";
+        content += "<tr><th scope='row'>ID Reserva: " + $('#id').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Nombre: " + $('#nombre').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Apellidos: " + $('#apellidos').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Email: " + $('#correo').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Tarjeta: " + "*********" + $('#tarjeta').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Transacción: " + $('#transaccion').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Fecha Llegada: " + $('#inicio').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Fecha Salida: " + $('#fin').val() + "</th></tr>";
+        content += "<tr><th scope='row'>Tipo: " + $('#tipo').val() + "</th></tr>";
+
+        $('#tableBody').html(content);
+    });
+
+
+    function reportPDF() {
+        var pdf = new jsPDF('p', 'pt', 'letter');
+        source = $('#reservation')[0];
+
+        specialElementHandlers = {
+            '#bypassme': function (element, renderer) {
+                return true
+            }
+        };
+        margins = {
+            top: 80,
+            bottom: 60,
+            left: 40,
+            width: 522
+        };
+
+        pdf.fromHTML(
+            source,
+            margins.left, // x coord
+            margins.top, { // y coord
+                'width': margins.width,
+                'elementHandlers': specialElementHandlers
+            },
+
+            function (dispose) {
+                pdf.save('Reporte.pdf');
+            }, margins
+        );
+    }
+
+</script>

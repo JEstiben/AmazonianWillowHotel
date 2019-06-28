@@ -373,5 +373,74 @@ namespace AmazoniamWillowHotel.Controllers
             return View("../Admin/Index");
         }
 
+        public ActionResult ListReservations() {
+
+            using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+            {
+                var model = mo.Reservacion.Include(x => x.Habitacion1).Include(h => h.Habitacion1.Tipo_Habitacion).ToList();
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult DeleteReservation(int? id) {
+
+            try
+            {
+                if (id != null)
+                {
+                    using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                    {
+                        var model = mo.Reservacion.Where(x => x.id == id).First();
+                        mo.Reservacion.Remove(model);
+                        mo.SaveChanges();
+
+                        TempData["tituloModal"] = "Exito";
+                        TempData["message"] = "Se eliminó correctamente la reservación.";
+                    }
+                }
+            }
+            catch {
+                TempData["tituloModal"] = "Error";
+                TempData["message"] = "Lo sentimos ocurrió un error.";
+            }
+            return RedirectToAction("ListReservations");
+        }
+
+
+
+        [HttpGet]
+        public ActionResult ReservationInfo(int? id)
+        {
+
+            try
+            {
+                if (id != null)
+                {
+                    using (var mo = new Models.Hotel_Amazonian_WillowEntities())
+                    {
+                        var model = mo.Reservacion.Where(x => x.id == id).Include(x => x.Habitacion1).Include(h => h.Habitacion1.Tipo_Habitacion).First();
+                        return View(model);
+                    }
+                }
+                else return RedirectToAction("ListReservations");
+            }
+            catch
+            {
+                TempData["tituloModal"] = "Error";
+                TempData["message"] = "Lo sentimos ocurrió un error.";
+                return RedirectToAction("ListReservations");
+            }
+            
+        }
+
+
+        public JsonResult getReservationInfo(int id)
+        {
+            var mo = new Models.Hotel_Amazonian_WillowEntities();
+
+            return Json(mo.getReservationInfo(id), JsonRequestBehavior.AllowGet);
+        }
+
     }//class
 }//namespace
