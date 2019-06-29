@@ -292,34 +292,17 @@
     <Content Include="Public\css\OpenSans.css" />
     <Content Include="Public\css\style.css" />
     <Content Include="Public\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Public\images\bajoBonilla.jpg" />
     <Content Include="Public\images\banner.jpg" />
-    <Content Include="Public\images\catarataoculta.jpg" />
     <Content Include="Public\images\close.png" />
     <Content Include="Public\images\co.png" />
-    <Content Include="Public\images\i_p_0.jpg" />
-    <Content Include="Public\images\i_p_1.jpg" />
-    <Content Include="Public\images\i_p_2.jpg" />
-    <Content Include="Public\images\i_p_3.jpg" />
-    <Content Include="Public\images\i_p_4.jpg" />
-    <Content Include="Public\images\i_p_5.jpg" />
-    <Content Include="Public\images\i_p_6.jpg" />
-    <Content Include="Public\images\junior.jpg" />
-    <Content Include="Public\images\laguna.jpg" />
-    <Content Include="Public\images\laguna1.jpg" />
     <Content Include="Public\images\left.png" />
     <Content Include="Public\images\loading-card.gif" />
     <Content Include="Public\images\loading.gif" />
     <Content Include="Public\images\logo.png" />
     <Content Include="Public\images\montania.jpg" />
     <Content Include="Public\images\PH-Reventazon.jpg" />
-    <Content Include="Public\images\premiun.jpg" />
-    <Content Include="Public\images\represaReventazon.jpg" />
-    <Content Include="Public\images\reventazon.jpg" />
     <Content Include="Public\images\right.png" />
     <Content Include="Public\images\rioBonilla.jpg" />
-    <Content Include="Public\images\standart.jpg" />
-    <Content Include="Public\images\tucan.jpg" />
     <Content Include="Public\images\update.png" />
     <Content Include="Public\js\bootstrap.js" />
     <Content Include="Public\js\bootstrap.min.js" />
@@ -350,6 +333,7 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\AmazoniamWillowHotel - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
