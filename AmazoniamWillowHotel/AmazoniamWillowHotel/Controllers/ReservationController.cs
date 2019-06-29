@@ -159,7 +159,7 @@ namespace AmazoniamWillowHotel.Controllers
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(correo_));
             email.From = new MailAddress("hotelamazonianwillow@gmail.com");
-            email.Subject = "Reservación Comprobante ( " + DateTime.Now.ToString("dd/MM/yyy hh:mm:ss") + " ) ";
+            email.Subject = "Reservación Comprobante ( " + DateTime.Now.ToString("MM/dd/yyy hh:mm:ss") + " ) ";
             email.Body = "<p>Reservación realizada!</p><br/><p>Gracias "+nombreCompleto+"!! Su reservación fue realizada exitosamente.</p><br/><p>Número de reservación: "+numeroReserva+ "</p><br/><p>Monto de la reservación: "+montoR+"</p><br/><p>Gracias por preferirnos!</p>";
             email.IsBodyHtml = true;
             email.Priority = MailPriority.Normal;
