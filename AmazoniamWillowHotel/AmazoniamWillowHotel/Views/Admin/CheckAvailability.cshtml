@@ -10,11 +10,11 @@
 
     <div class="col-sm-4">
         <label>Fecha de llegada: </label>
-        <input type="text" id="fechaLlegada" name="fechaLlegada" class="form-control" value="dd/mm/aaaa" />
+        <input type="text" id="fechaLlegada" name="fechaLlegada" class="form-control" value="mm/dd/aaaa" />
     </div>
     <div class="col-sm-4">
         <label>Fecha de salida: </label>
-        <input type="text" id="fechaSalida" name="fechaSalida" class="form-control" value="dd/mm/aaaa" />
+        <input type="text" id="fechaSalida" name="fechaSalida" class="form-control" value="mm/dd/aaaa" />
     </div>
 
     <div class="col-sm-4">
@@ -85,11 +85,11 @@
 
 <script>
     $(function () {
-        var dateFormat = "dd/mm/yy",
+        var dateFormat = "mm/dd/yy",
             fechaLlegada = $("#fechaLlegada").datepicker({ minDate: 0, dateFormat: dateFormat })
                 .on("change", function () {
                     fechaSalida.datepicker("option", "minDate", getDate(this));
-                    fechaSalida.datepicker("setDate", "dd/mm/aaaa")
+                    fechaSalida.datepicker("setDate", "mm/dd/aaaa")
                 }),
             fechaSalida = $("#fechaSalida").datepicker({ minDate: 0, dateFormat: dateFormat })
                 .on("change", function () {
