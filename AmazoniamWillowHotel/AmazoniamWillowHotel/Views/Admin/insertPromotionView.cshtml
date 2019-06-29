@@ -24,7 +24,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Fecha incio:</label>
         <div class="col-md-10">
-            <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="text" value="dd/mm/aaaa"/>
+            <input id="iFechaInicio" name="iFechaInicio" class="form-control" type="text" value="mm/dd/aaaa"/>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Fecha final:</label>
         <div class="col-md-10">
-            <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="text" value="dd/mm/aaaa"/>
+            <input id="iFechaFinal" name="iFechaFinal" class="form-control" type="text" value="mm/dd/aaaa"/>
         </div>
     </div>
     <div id="selected" name="selected">
@@ -108,13 +108,13 @@
     }
 
     $(function () {
-        var dateFormat = "dd/mm/yy",
+        var dateFormat = "mm/dd/yy",
             fechaLlegada = $("#iFechaInicio").datepicker({ minDate: 0, dateFormat: dateFormat })
                 .on("change", function () {
                     var fecha = $("#iFechaInicio").datepicker("getDate");
                     fecha.setDate(fecha.getDate() + 1);
                     fechaSalida.datepicker("option", "minDate", fecha);
-                    fechaSalida.datepicker("setDate", "dd/mm/aaaa")
+                    fechaSalida.datepicker("setDate", "mm/dd/aaaa")
                 }),
             fechaSalida = $("#iFechaFinal").datepicker({ minDate: 0, dateFormat: dateFormat })
                 .on("change", function () {
